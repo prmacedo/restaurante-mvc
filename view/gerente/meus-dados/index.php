@@ -4,8 +4,7 @@ require ("../../../controller/SessaoController.php");
 
 SessaoController::validarLoginGerente();
 
-var_dump($_SESSION);
-
+$infoGerente = $_SESSION["gerente"];
 ?>
 <!doctype html>
 <html lang="en">
@@ -48,19 +47,15 @@ var_dump($_SESSION);
       <main>
         <div class="grupo-dados-perfil">
           <small>Nome:</small>
-          <p>Pedro Lima</p>
+          <p><?php echo $infoGerente['nome'] ?></p>
         </div>
 
         <div class="grupo-dados-perfil">
           <small>E-mail:</small>
-          <p>pedrolim@gmail.com</p>
+          <p><?php echo $infoGerente['email'] ?></p>
         </div>
 
-        <form action="../../../controller/Rotas.php" method="POST">
-          <button type="submit" class="btn btn-verde px-5 mt-4">ATUALIZAR DADOS</button>
-          <input type="hidden" name="acao" value="gerenteBuscar">
-          <input type="hidden" name="gerenteId" value="<?php echo $_SESSION['gerenteId'] ?>">
-        </form>
+        <a href="editar.php" class="btn btn-verde px-5 mt-4">ATUALIZAR DADOS</a>
       </main>
     </div>
 

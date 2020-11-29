@@ -5,8 +5,7 @@ require ("../../../controller/SessaoController.php");
 SessaoController::validarLoginGerente();
 
 $infoGerente = $_SESSION["gerente"];
-unset($_SESSION["gerente"]);
-
+// var_dump($infoGerente);
 ?>
 <!doctype html>
 <html lang="en">
@@ -50,7 +49,9 @@ unset($_SESSION["gerente"]);
       </header>
       
       <main>
-        <form action="">
+        <form action="../../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="gerenteAtualizar">
+          <input type="hidden" name="id" value="<?php echo $infoGerente['id'] ?>">
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="nome">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $infoGerente['nome'] ?>" required>

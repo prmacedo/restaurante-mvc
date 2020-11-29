@@ -1,6 +1,6 @@
 <?php
 
-require ("C:/xampp/htdocs/Restaurante/model/GerenteDAO.php");
+require ("../model/GerenteDAO.php");
 
 class GerenteController
 {
@@ -11,10 +11,7 @@ class GerenteController
     if (!empty($dadosGerente)) {
       SessaoController::autenticarSessaoGerente();
       
-      $gerente -> setId($dadosGerente["id"]);
-      $gerente -> setNome($dadosGerente["nome"]);
-      
-      $_SESSION["gerenteId"] = $dadosGerente["id"];
+      $_SESSION["gerente"] = $dadosGerente;
       header("Location: ../view/gerente/index.php");
     } else {
       $_SESSION["erroLogin"] = "Usuário não encontrado";
@@ -22,15 +19,30 @@ class GerenteController
     }
   }
 
-  function buscar($gerenteId) {
-    $gerenteDAO = new GerenteDAO();
+  // function buscar($gerenteId) {
+  //   $gerenteDAO = new GerenteDAO();
 
-    $dadosGerente = $gerenteDAO -> buscar($gerenteId);
-    if (!empty($dadosGerente)) {
-      $_SESSION["gerente"] = $dadosGerente;
-      header("Location: ../view/gerente/meus-dados/editar.php");
+  //   $dadosGerente = $gerenteDAO -> buscar($gerenteId);
+  //   if (!empty($dadosGerente)) {
+  //     $_SESSION["gerente"] = $dadosGerente;
+  //     header("Location: ../view/gerente/meus-dados/editar.php");
+  //   } else {
+  //     echo "erro";
+  //   }
+  // }
+
+  function atualizar($gerente) {
+    $gerenteDAO = new GerenteDAO();
+    $dadosAtualizados = $gerenteDAO -> atualizar($gerente);
+    
+    if (!empty($dadosAtualizados)) {
+      $_SESSION["gerente"] = $dadosAtualizados;
+      
+      header("Location: ../view/gerente/meus-dados/");
     } else {
-      echo "erro";
+      $_SESSION["erroLogin"] = "Erro ao atualizar cadastro!";
+      header("Location: ../view/gerente/meus-dados/editar.php");
     }
   }
+  
 }

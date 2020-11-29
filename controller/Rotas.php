@@ -40,8 +40,13 @@ else if ($acao == "gerenteLogin") {
   $gerente = new Gerente("", $email, $senha);
   GerenteController::login($gerente);
 }
-else if ($acao == "gerenteBuscar") {
-  $gerenteId = $_POST["gerenteId"];
+else if ($acao == "gerenteAtualizar") {
+  $id = $_POST["id"];
+  $nome = $_POST["nome"];
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
 
-  GerenteController::buscar($gerenteId);
+  $gerente = new Gerente($nome, $email, $senha);
+  $gerente -> setId($id);
+  GerenteController::atualizar($gerente);
 }
