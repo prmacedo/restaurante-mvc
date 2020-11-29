@@ -4,7 +4,8 @@ require ("../../../controller/SessaoController.php");
 
 SessaoController::validarLoginGerente();
 
-var_dump($_SESSION);
+$infoGerente = $_SESSION["gerente"];
+unset($_SESSION["gerente"]);
 
 ?>
 <!doctype html>
@@ -52,17 +53,17 @@ var_dump($_SESSION);
         <form action="">
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" value="Pedro Lima" required>
+            <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $infoGerente['nome'] ?>" required>
           </div>
         
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="email">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" value="pedrolim@gmail.com" required>
+            <input type="email" class="form-control" id="email" name="email" value="<?php echo $infoGerente['email'] ?>" required>
           </div>
         
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="senha">Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" value="123456" required>
+            <input type="password" class="form-control" id="senha" name="senha" value="<?php echo $infoGerente['senha'] ?>" required>
           </div>
         
           <button type="submit" class="btn btn-verde px-5">SALVAR ALTERAÇÕES</button>

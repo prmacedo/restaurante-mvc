@@ -4,6 +4,8 @@ require ("../../../controller/SessaoController.php");
 
 SessaoController::validarLoginGerente();
 
+var_dump($_SESSION);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -54,9 +56,10 @@ SessaoController::validarLoginGerente();
           <p>pedrolim@gmail.com</p>
         </div>
 
-        <form action="../../../controller/GerenteController.php" method="POST">
+        <form action="../../../controller/Rotas.php" method="POST">
           <button type="submit" class="btn btn-verde px-5 mt-4">ATUALIZAR DADOS</button>
-          <input type="hidden" name="acao" value="buscar">
+          <input type="hidden" name="acao" value="gerenteBuscar">
+          <input type="hidden" name="gerenteId" value="<?php echo $_SESSION['gerenteId'] ?>">
         </form>
       </main>
     </div>

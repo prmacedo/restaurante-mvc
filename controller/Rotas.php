@@ -40,3 +40,8 @@ else if ($acao == "gerenteLogin") {
   $gerente = new Gerente("", $email, $senha);
   GerenteController::login($gerente);
 }
+else if ($acao == "gerenteBuscar") {
+  $gerenteId = $_POST["gerenteId"];
+
+  GerenteController::buscar($gerenteId);
+}
