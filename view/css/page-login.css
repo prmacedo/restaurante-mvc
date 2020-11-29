@@ -1,0 +1,40 @@
+.page-form-login {
+  background-color: var(--bg-branco);
+
+  width: 100vw;
+  min-height: 100vh;
+
+  font-family: 'Archivo', sans-serif;
+
+  color: var(--titulo);
+}
+
+.form-login {
+  width: 90%;
+  max-width: 450px;  
+  
+  margin: 0 auto;
+  padding: 3rem 2rem;
+
+  background-color: #FFF;
+
+  box-shadow: 0 0 4px #B6C1C1;
+
+  border-radius: 0.5rem;
+}
+
+.form-login .header p {
+  color: var(--detalhes);
+}
+
+.form-login .form-group small {
+  cursor: pointer;
+}
+
+.btn {
+  width: 100%;
+}
+
+.btn + .btn {
+  margin-top: 15px;
+}

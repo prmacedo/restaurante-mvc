@@ -1,0 +1,59 @@
+:root {
+  --bg-branco: #FAFAFA;
+  --titulo: #292929;
+  --detalhes: #535353;
+  --verde: #48EF62;
+  --verde-hover: #42df64;
+  --azul: #6BAFC3;
+}
+
+.btn {
+  border-radius: .5rem;
+
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.btn-verde {
+  line-height: 2.5rem;
+  color: #FFF;
+  background-color: var(--verde);
+  transition: background-color 0.2s;
+}
+
+.btn-verde:hover {
+  color: #FFF;
+  background-color: var(--verde-hover);
+}
+
+.btn-outline-azul {
+  line-height: 2.5rem;
+  color: var(--azul);
+  box-shadow: 0 0 0 4px inset var(--azul);
+  background-color: transparent;
+
+  transition: 0.2s;
+}
+
+.btn-outline-azul:hover {
+  color: #FFF;
+  background-color: var(--azul);
+}
+
+nav.bg-azul {
+  background-color: var(--azul)!important;
+}
+
+nav a {
+  color: #fff!important;
+  font-family: 'Poppins', sans-serif;
+}
+
+nav a:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+nav img {
+  height: 2rem;
+}
+

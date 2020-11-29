@@ -1,0 +1,84 @@
+html, body {
+  scroll-behavior: smooth;
+}
+
+#page-confirmacao-pedido, #page-finalizacao-pagamento {
+  background-color: #FAFAFA;
+
+  width: 100vw;
+  height: 100vh;
+
+  font-family: 'Archivo', sans-serif;
+
+  color: #292929;
+}
+
+#page-confirmacao-pedido img, #page-finalizacao-pagamento img {
+  height: 256px;
+}
+
+#page-confirmacao-pedido h3, #page-finalizacao-pagamento h3 {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+#page-confirmacao-pedido p, #page-finalizacao-pagamento p {
+  font-size: 18px;
+  color: #535353;
+}
+
+#page-confirmacao-pedido .btn, #page-finalizacao-pagamento .btn {
+  height: 80px;
+  width: 360px;
+
+  font-size: 20px;
+  line-height: 64px;
+}
+
+.qtd-input {
+  border-radius: 0.5rem;
+  border: 1px solid #B6B6B6;
+
+  padding: 0.5rem;
+
+  width: 20%;
+  min-width: 50px;
+
+  text-align: right;
+}
+
+.w50 {
+  width: 50%;
+}
+
+.w30 {
+  width: 30%;
+  text-align: right;
+}
+
+.w20 {
+  width: 20%;
+  text-align: right;
+}
+
+.ancora {
+  height: 64px;
+}
+
+.btn-pedido {
+  position: fixed;
+  bottom: 0;
+  right: 10%;
+
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.total {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-body h4 {
+  color: var(--titulo);
+  font-size: 1.25rem;
+}

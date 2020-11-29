@@ -1,0 +1,56 @@
+header img {
+  height: 1.5rem;
+}
+
+header p, input, label {
+  color: var(--detalhes);
+  font-family: 'Poppins', sans-serif;
+}
+
+.voltar {
+  color: var(--detalhes);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.voltar:hover {
+  color: var(--color-titulo);
+}
+
+.btn-verde {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+}
+
+
+/* Tabelas */
+td a, td a:hover {
+  color: var(--color-titulo);
+  text-decoration: none;
+}
+
+/* Cards */
+.card {
+  border-radius: 0.5rem;
+}
+
+.card-img-top {
+  height: 16rem;
+}
+
+/* Meus dados */
+.grupo-dados-perfil > * {
+  display: inline;
+  
+  color: var(--detalhes);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.grupo-dados-perfil small {
+  font-size: 0.9rem;
+}
+
+.grupo-dados-perfil p {
+  font-size: 1.25rem;
+}
