@@ -9,8 +9,6 @@ SessaoController::validarLoginGerente();
 
 $bebidas = BebidaController::listar();
 
-// var_dump($bebs);
-
 ?>
 <!doctype html>
 <html lang="en">

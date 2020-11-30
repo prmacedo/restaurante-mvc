@@ -1,3 +1,15 @@
+<?php
+session_start();
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/ComidaController.php");
+
+SessaoController::validarLoginGerente();
+
+$comidas = ComidaController::listar();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -51,45 +63,21 @@
             </tr>
           </thead>
           <tbody>
+            <?php foreach ($comidas as $comida) { ?>
             <tr>
-              <td class="py-3">Macarrão ao alho e óleo</td>
-              <td class="py-3">Macarrão temperado com alho e óleo</td>
-              <td class="py-3">R$ 20,90</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
+              <td class="py-3"><?php echo $comida["nome"] ?></td>
+              <td class="py-3"><?php echo $comida["descricao"] ?></td>
+              <td class="py-3">R$ <?php echo number_format($comida["preco"], 2, ',', '.') ?></td>
+              <td class="d-flex">
+                <a href="editar.php?id=<?php echo $comida['id'] ?>" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
+                <form action="../../../controller/Rotas.php" method="POST">
+                  <input type="hidden" name="acao" value="comidaExcluir">
+                  <input type="hidden" name="id" value="<?php echo $comida['id'] ?>">
+                  <button type="submit" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></button>
+                </form>
               </td>
             </tr>
-
-            <tr>
-              <td class="py-3">Misto</td>
-              <td class="py-3">Pão, queijo e presunto</td>
-              <td class="py-3">R$ 5,90</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">Macarrão ao alho e óleo</td>
-              <td class="py-3">Macarrão temperado com alho e óleo</td>
-              <td class="py-3">R$ 20,90</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">Misto</td>
-              <td class="py-3">Pão, queijo e presunto</td>
-              <td class="py-3">R$ 5,90</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
+            <?php } ?>
           </tbody>
         </table>
       </main>

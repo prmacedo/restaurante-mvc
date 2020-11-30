@@ -1,3 +1,15 @@
+<?php
+session_start();
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/ComidaController.php");
+
+SessaoController::validarLoginGerente();
+
+$comida = ComidaController::buscar($_GET["id"]);
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,25 +52,27 @@
       </header>
       
       <main>
-        <form action="">
+        <form action="../../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="comidaEditar">
+          <input type="hidden" name="idAntigo" value="<?php echo $comida["id"] ?>">
           <div class="form-group col-md-7 px-0">
-            <label class="m-0" for="codigo">Código do produto</label>
-            <input type="number" class="form-control" id="codigo" name="codigo" min="0" value="3001" required>
+            <label class="m-0" for="id">Código do produto</label>
+            <input type="number" class="form-control" id="id" name="id" min="0" value="<?php echo $comida["id"] ?>" required>
           </div>
           
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" value="Macarrão ao alho e óleo" required>
+            <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $comida["nome"] ?>" required>
           </div>
           
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="descricao">Descrição</label>
-            <input type="text" class="form-control" id="descricao" name="descricao" value="Macarrão temperado com alho e óleo" required>
+            <input type="text" class="form-control" id="descricao" name="descricao" value="<?php echo $comida["descricao"] ?>" required>
           </div>
 
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="preco">Preço</label>
-            <input type="number" class="form-control" id="preco" name="preco" min="0" step=".01" value="20.90" required>
+            <input type="number" class="form-control" id="preco" name="preco" min="0" step=".01" value="<?php echo $comida["preco"] ?>" required>
           </div>
           
           <button type="submit" class="btn btn-verde px-5">SALVAR ALTERAÇÕES</button>
