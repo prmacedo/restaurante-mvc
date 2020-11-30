@@ -16,7 +16,12 @@ class SessaoController {
 
   public static function validarLoginGerente() {
     if(!$_SESSION["authGerente"]) {
-      header("Location: ../");
+      header("Location: ../login-gerente.php");
     }
+  }
+
+  public static function finalizarSessao(){
+    unset($_SESSION);
+    session_destroy();
   }
 }

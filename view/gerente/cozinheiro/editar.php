@@ -1,3 +1,15 @@
+<?php
+session_start();
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/CozinheiroController.php");
+
+SessaoController::validarLoginGerente();
+
+$cozinheiro = CozinheiroController::buscar($_GET["id"]);
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,20 +52,23 @@
       </header>
       
       <main>
-        <form action="">
+        <form action="../../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="cozinheiroEditar">
+          <input type="hidden" name="id" value="<?php echo $cozinheiro["id"] ?>">
+          
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" value="Paulo Ricardo" required>
+            <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $cozinheiro["nome"] ?>" required>
           </div>
           
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="email">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" value="paulo@gmail.com" required>
+            <input type="email" class="form-control" id="email" name="email" value="<?php echo $cozinheiro["email"] ?>" required>
           </div>
-          
+
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="senha">Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" value="123456" required>
+            <input type="password" class="form-control" id="senha" name="senha" min="0" step=".01" value="<?php echo $cozinheiro["senha"] ?>" required>
           </div>
           
           <button type="submit" class="btn btn-verde px-5">SALVAR ALTERAÇÕES</button>

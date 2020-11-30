@@ -1,3 +1,15 @@
+<?php
+session_start();
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/CozinheiroController.php");
+
+SessaoController::validarLoginGerente();
+
+$cozinheiros = CozinheiroController::listar();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -50,41 +62,20 @@
             </tr>
           </thead>
           <tbody>
+          <?php foreach ($cozinheiros as $cozinheiro) { ?>
             <tr>
-              <td class="py-3">Paulo Ricardo</td>
-              <td class="py-3">paulo@gmail.com</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
+              <td class="py-3"><?php echo $cozinheiro["nome"] ?></td>
+              <td class="py-3"><?php echo $cozinheiro["email"] ?></td>
+              <td class="d-flex">
+                <a href="editar.php?id=<?php echo $cozinheiro['id'] ?>" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
+                <form action="../../../controller/Rotas.php" method="POST">
+                  <input type="hidden" name="acao" value="cozinheiroExcluir">
+                  <input type="hidden" name="id" value="<?php echo $cozinheiro['id'] ?>">
+                  <button type="submit" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></button>
+                </form>
               </td>
             </tr>
-      
-            <tr>
-              <td class="py-3">Paulo Ricardo</td>
-              <td class="py-3">paulo@gmail.com</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">Paulo Ricardo</td>
-              <td class="py-3">paulo@gmail.com</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">Paulo Ricardo</td>
-              <td class="py-3">paulo@gmail.com</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
+            <?php } ?>
           </tbody>
         </table>
       </main>

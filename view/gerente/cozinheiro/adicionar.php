@@ -1,3 +1,10 @@
+<?php
+session_start();
+require ("../../../controller/SessaoController.php");
+
+SessaoController::validarLoginGerente();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,7 +47,8 @@
       </header>
       
       <main>
-        <form action="">
+        <form action="../../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="cozinheiroCadastrar">
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="nome">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome do cozinheiro" required>

@@ -16,6 +16,9 @@ require ('BebidaController.php');
 require ('../model/Comida.php');
 require ('ComidaController.php');
 
+require ('../model/Cozinheiro.php');
+require ('CozinheiroController.php');
+
 if (empty($_POST)) {
   header('Location: ../view');
 }
@@ -107,5 +110,28 @@ else if($acao == "comidaExcluir") {
   $id = $_POST["id"];
   
   ComidaController::excluir($id);
+}
+else if($acao == "cozinheiroCadastrar") {
+  $nome = $_POST["nome"];
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
+
+  $comida = new Cozinheiro($nome, $email, $senha);
+  $comida -> setId($codigo);
+  CozinheiroController::cadastrar($comida);
+}
+else if($acao == "cozinheiroEditar") {
+  $id = $_POST["id"];
+  $nome = $_POST["nome"];
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
+
+  $comida = new Cozinheiro($nome, $email, $senha);
+  CozinheiroController::atualizar($comida, $id);
+}
+else if($acao == "cozinheiroExcluir") {
+  $id = $_POST["id"];
+  
+  CozinheiroController::excluir($id);
 }
 
