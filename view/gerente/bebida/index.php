@@ -1,3 +1,17 @@
+<?php
+session_start();
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/BebidaController.php");
+
+SessaoController::validarLoginGerente();
+
+$bebidas = BebidaController::listar();
+
+// var_dump($bebs);
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -51,45 +65,21 @@
             </tr>
           </thead>
           <tbody>
+            <?php foreach ($bebidas as $bebida) { ?>
             <tr>
-              <td class="py-3">Guaraná Antarctica 1L</td>
-              <td class="py-3">Casa de Bebidas X</td>
-              <td class="py-3">R$ 4,50</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
+              <td class="py-3"><?php echo $bebida["nome"] ?></td>
+              <td class="py-3"><?php echo $bebida["fornecedor"] ?></td>
+              <td class="py-3">R$ <?php echo number_format($bebida["preco"], 2, ',', '.') ?></td>
+              <td class="d-flex">
+                <a href="editar.php?id=<?php echo $bebida['id'] ?>" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
+                <form action="../../../controller/Rotas.php" method="POST">
+                  <input type="hidden" name="acao" value="bebidaExcluir">
+                  <input type="hidden" name="id" value="<?php echo $bebida['id'] ?>">
+                  <button type="submit" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></button>
+                </form>
               </td>
             </tr>
-      
-            <tr>
-              <td class="py-3">Coca-Cola 2L</td>
-              <td class="py-3">Casa de Bebidas X</td>
-              <td class="py-3">R$ 9,00</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
-            
-            <tr>
-              <td class="py-3">Guaraná Antarctica 1L</td>
-              <td class="py-3">Casa de Bebidas X</td>
-              <td class="py-3">R$ 4,50</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">Coca-Cola 2L</td>
-              <td class="py-3">Casa de Bebidas X</td>
-              <td class="py-3">R$ 9,00</td>
-              <td class="">
-                <a href="editar.php" class="btn mr-2 px-0" title="Editar cadastro"><img src="../../img/edit.svg" alt="Editar"> <span class="ml-1 d-none d-sm-inline">Editar</span></a>
-                <a href="" class="btn m-0" title="Excluir cadastro"> <img src="../../img/trash.svg" alt="Excluir"><span class="ml-1 d-none d-sm-inline">Excluir</span></a>
-              </td>
-            </tr>
+            <?php } ?>
           </tbody>
         </table>
       </main>

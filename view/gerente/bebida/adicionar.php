@@ -1,3 +1,10 @@
+<?php
+session_start();
+require ("../../../controller/SessaoController.php");
+
+SessaoController::validarLoginGerente();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,7 +47,8 @@
       </header>
       
       <main>
-        <form action="">
+        <form action="../../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="bebidaCadastrar">
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="codigo">Código do produto</label>
             <input type="number" class="form-control" id="codigo" name="codigo" min="0" placeholder="Digite o código da bebida" required>

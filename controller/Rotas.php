@@ -10,6 +10,9 @@ require ('GerenteController.php');
 require ('../model/Cliente.php');
 require ('ClienteController.php');
 
+require ('../model/Bebida.php');
+require ('BebidaController.php');
+
 if (empty($_POST)) {
   header('Location: ../view');
 }
@@ -50,3 +53,31 @@ else if ($acao == "gerenteAtualizar") {
   $gerente -> setId($id);
   GerenteController::atualizar($gerente);
 }
+else if($acao == "bebidaCadastrar") {
+  $codigo = $_POST["codigo"];
+  $nome = $_POST["nome"];
+  $preco = $_POST["preco"];
+  $fornecedor = $_POST["fornecedor"];
+
+  $bebida = new Bebida($nome, $preco, $fornecedor);
+  $bebida -> setId($codigo);
+  BebidaController::cadastrar($bebida);
+}
+else if($acao == "bebidaEditar") {
+  $idAntigo = $_POST["idAntigo"];
+  $id = $_POST["id"];
+  $nome = $_POST["nome"];
+  $preco = $_POST["preco"];
+  $fornecedor = $_POST["fornecedor"];
+
+  $bebida = new Bebida($nome, $preco, $fornecedor);
+  $bebida -> setId($id);
+  BebidaController::atualizar($bebida, $idAntigo);
+}
+else if($acao == "bebidaExcluir") {
+  $id = $_POST["id"];
+  
+  BebidaController::excluir($id);
+}
+
+

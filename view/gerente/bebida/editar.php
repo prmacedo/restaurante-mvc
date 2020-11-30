@@ -1,3 +1,15 @@
+<?php
+session_start();
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/BebidaController.php");
+
+SessaoController::validarLoginGerente();
+
+$bebida = BebidaController::buscar($_GET["id"]);
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,25 +52,27 @@
       </header>
       
       <main>
-        <form action="">
+        <form action="../../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="bebidaEditar">
+          <input type="hidden" name="idAntigo" value="<?php echo $bebida["id"] ?>">
           <div class="form-group col-md-7 px-0">
-            <label class="m-0" for="codigo">Código do produto</label>
-            <input type="number" class="form-control" id="codigo" name="codigo" min="0" value="5002" required>
+            <label class="m-0" for="id">Código do produto</label>
+            <input type="number" class="form-control" id="id" name="id" min="0" value="<?php echo $bebida["id"] ?>" required>
           </div>
           
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" value="Guaraná Antarctica 1L" required>
+            <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $bebida["nome"] ?>" required>
           </div>
           
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="fornecedor">Fonecedor</label>
-            <input type="text" class="form-control" id="fornecedor" name="fornecedor" value="Casa de Bebidas X" required>
+            <input type="text" class="form-control" id="fornecedor" name="fornecedor" value="<?php echo $bebida["fornecedor"] ?>" required>
           </div>
 
           <div class="form-group col-md-7 px-0">
             <label class="m-0" for="preco">Preço</label>
-            <input type="number" class="form-control" id="preco" name="preco" min="0" step=".01" value="20.90" required>
+            <input type="number" class="form-control" id="preco" name="preco" min="0" step=".01" value="<?php echo $bebida["preco"] ?>" required>
           </div>
           
           <button type="submit" class="btn btn-verde px-5">SALVAR ALTERAÇÕES</button>
