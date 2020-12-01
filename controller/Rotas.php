@@ -149,7 +149,12 @@ else if($acao == "cozinheiroEditar") {
   $senha = $_POST["senha"];
 
   $comida = new Cozinheiro($nome, $email, $senha);
-  CozinheiroController::atualizar($comida, $id);
+  
+  if(CozinheiroController::atualizar($comida, $id)) {
+    header("Location: ../view/gerente/cozinheiro/");
+  } else {
+    header("Location: ../view/gerente/cozinheiro/editar.php?id=$cozinheiroId");
+  }
 }
 else if($acao == "cozinheiroExcluir") {
   $id = $_POST["id"];
@@ -208,4 +213,17 @@ else if($acao == "entregarPedido") {
   $contaAberta = ContaController::entregar($_POST);
   header("Location: ../view/cozinheiro/");
 }
+else if($acao == "cozinheiroAtualizar") {
+  $id = $_POST["id"];
+  $nome = $_POST["nome"];
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
 
+  $cozinheiro = new Cozinheiro($nome, $email, $senha);
+
+  if(CozinheiroController::atualizar($cozinheiro, $id)) {
+    header("Location: ../view/cozinheiro/meus-dados/");
+  } else {
+    header("Location: ../view/cozinheiro/meus-dados/editar.php");
+  }
+}

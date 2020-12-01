@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+require ("../../../model/Conexao.php");
+
+require ("../../../controller/SessaoController.php");
+require ("../../../controller/CozinheiroController.php");
+
+SessaoController::validarLoginCozinheiro();
+$cozinheiro = CozinheiroController::buscar($_SESSION["cozinheiro"]["id"]);
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -39,12 +51,12 @@
       <main>
         <div class="grupo-dados-perfil">
           <small>Nome:</small>
-          <p>Paulo Ricardo</p>
+          <p><?php echo $cozinheiro["nome"] ?></p>
         </div>
 
         <div class="grupo-dados-perfil">
           <small>E-mail:</small>
-          <p>paulo@gmail.com</p>
+          <p><?php echo $cozinheiro["email"] ?></p>
         </div>
 
         <a href="editar.php" class="btn btn-verde px-5 mt-4">ATUALIZAR DADOS</a>

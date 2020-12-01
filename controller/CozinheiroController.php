@@ -48,12 +48,7 @@ class CozinheiroController
 
   public static function atualizar($cozinheiro, $cozinheiroId) {
     $cozinheiroDAO = new CozinheiroDAO();
-
-    if($cozinheiroDAO -> atualizar($cozinheiro, $cozinheiroId)) {
-      header("Location: ../view/gerente/cozinheiro/");
-    } else {
-      header("Location: ../view/gerente/cozinheiro/editar.php?id=$cozinheiroId");
-    }
+    return $cozinheiroDAO -> atualizar($cozinheiro, $cozinheiroId);
   }
 
   public static function excluir($cozinheiroId) {
