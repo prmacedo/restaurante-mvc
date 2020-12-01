@@ -39,7 +39,10 @@ SessaoController::validarLoginCliente();
         
         <div class="row mx-1 justify-content-center">
           <a href="../index.php" class="btn btn-outline-azul col-12 col-md-3">Sair da plataforma</a>
-          <a href="index.php" class="btn btn-verde col-12 col-md-3 offset-md-2 mt-3 mt-md-0">Continuar Pedindo</a>
+          <form action="../../controller/Rotas.php" method="POST" class="col-12 col-md-3 offset-md-2 px-0 mt-3 mt-md-0">
+            <input type="hidden" name="acao" value="continuarPedindo">
+            <button type="submit" class="btn btn-verde">Continuar Pedindo</button>
+          </form>
         </div>
       </div>
     </div>

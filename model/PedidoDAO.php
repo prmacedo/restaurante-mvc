@@ -29,8 +29,51 @@ class PedidoDAO {
     }
   }
 
-  public function atualizar() {
-    
+  public function listarPedidos($contaId) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT * FROM pedido WHERE conta_id = :conta_id";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":conta_id", $contaId);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetchAll();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
   }
 
+  public function buscarComida($idComida) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT * FROM comida WHERE id = :comida_id";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":comida_id", $idComida);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
+
+  public function buscarBebida($idBebida) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT * FROM bebida WHERE id = :bebida_id";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":bebida_id", $idBebida);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
 }

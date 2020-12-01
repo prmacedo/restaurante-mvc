@@ -24,6 +24,8 @@ require ('PedidoController.php');
 require ('../model/Conta.php');
 require ('ContaController.php');
 
+require ('PagamentoController.php');
+
 if (empty($_POST)) {
   header('Location: ../view');
 }
@@ -158,5 +160,31 @@ else if($acao == "pedidoCadastrar") {
   unset($_POST["acao"]);
   PedidoController::cadastrar($_POST);
   header("Location: ../view/cliente/confirmacao.php");
+} else if ($acao == "contaPagar") {
+  unset($_POST["acao"]);
+  ContaController::pagar($_POST);
+  PagamentoController::cadastrar($_POST);
+  header("Location: ../view/cliente/finalizacao.php");
+} else if ($acao == "continuarPedindo") {
+  // var_dump($_SESSION);
+  $mesa = $_SESSION["mesa"] = 4;
+  $idCliente = $_SESSION["id"];
+  $email = $_SESSION["email"];
+
+  // var_dump($_SESSION);
+  date_default_timezone_set("America/Bahia");
+  $data = date('Y-m-d');
+  $hora = date('H:i');
+  $status = "Aberta";
+
+  $cliente = new Cliente("", $email, "");
+  $cliente -> setId($idCliente);
+
+  $conta = new Conta($mesa, $cliente, 0, $data, $hora, $status);
+  $contaAberta = ContaController::cadastrar($conta);
+
+  var_dump($contaAberta);
+  header("Location: ../view/cliente/index.php");
+
 }
 

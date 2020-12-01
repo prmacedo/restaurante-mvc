@@ -1,9 +1,20 @@
 <?php
 session_start();
+
+require ("../../model/Conexao.php");
+
 require ("../../controller/SessaoController.php");
+require ("../../controller/ContaController.php");
+require ("../../controller/PedidoController.php");
+require ("../../controller/ProdutoController.php");
 
 SessaoController::validarLoginCliente();
 
+$contaId = $_SESSION["conta"];
+$conta = ContaController::buscar($contaId);
+$listaDeProdutos = PedidoController::listarPedidos($contaId);
+
+$valorTotal = 0;
 ?>
 
 <!doctype html>
@@ -48,8 +59,8 @@ SessaoController::validarLoginCliente();
     <div class="px-3 m-3">
       <main>
         <div class="cliente-titulo d-flex align-items-end">
-          <h2>Mesa 07</h2>
-          <p class="ml-4 mb-2">(02 de outubro de 2020)</p>
+          <h2>Mesa <?php echo str_pad($conta["mesa"], 2, "0", STR_PAD_LEFT) ?></h2>
+          <p class="ml-4 mb-2">(<?php echo $conta["data"] ?>)</p>
         </div>
         
         <hr>
@@ -57,36 +68,33 @@ SessaoController::validarLoginCliente();
         <table class="table table-borderless">
           <thead style="border-bottom: 1px solid #E5E5E5;">
             <tr>
-              <th class="w50" scope="col">Pedido (14h43min)</th>
+              <th class="w50" scope="col">Pedido (<?php echo $conta["hora"] ?>)</th>
               <th class="w20" scope="col">Pço unid</th>
               <th class="w30" scope="col">Pço Total</th>
             </tr>
           </thead>
 
           <tbody>
+          <?php foreach ($listaDeProdutos as $produto) { 
+            $produtoDetalhe = ProdutoController::buscarProduto($produto["produto_id"], $produto["produto_tipo"]);
+            $qtd = $produto["produto_qtd"];
+            $nome = $produtoDetalhe["nome"];
+            $preco = number_format($produtoDetalhe["preco"], 2, ',', '.');
+            $precoParcial = number_format($produto["valor_parcial"], 2, ',', '.');
+            $valorTotal += $produto["valor_parcial"];
+          ?>
             <tr>
-              <td class="w50">1 &nbsp; Coca-Cola 2L</td>
-              <td class="w20">R$ 8,90</td>
-              <td class="w30">R$ 8,90</td>
+              <td class="w50"><?php echo $qtd ?> &nbsp; <?php echo $nome ?></td>
+              <td class="w20">R$ <?php echo $preco ?></td>
+              <td class="w30">R$ <?php echo $precoParcial ?></td>
             </tr>
-
-            <tr>
-              <td class="w50">3 &nbsp; Misto</td>
-              <td class="w20">R$ 4,50</td>
-              <td class="w30">R$ 9,00</td>
-            </tr>
-            
-            <tr>
-              <td class="w50">2 &nbsp; Guaraná Antárctica 1L</td>
-              <td class="w20">R$ 5,90</td>
-              <td class="w30">R$ 17,70</td>
-            </tr>
-
+          <?php } ?>
             <tr>
               <td class="w50"><b>Bônus</b></td>
               <td class="w20">--</td>
               <td class="w30"><b>R$ 5,70</b></td>
             </tr>
+
           </tbody>
         </table>
 
@@ -94,7 +102,7 @@ SessaoController::validarLoginCliente();
 
         <div class="d-flex justify-content-between total">
           <p class="my-2">TOTAL:</p>
-          <p class="my-2">R$ 29,90</p>
+          <p class="my-2">R$ <?php echo number_format($valorTotal, 2, ',', '.') ?></p>
         </div>
         
         <hr>
@@ -117,19 +125,22 @@ SessaoController::validarLoginCliente();
           </div>
 
           <div class="modal-body px-4 pb-5">
-            <form action="finalizacao.php" method="GET">
+            <form action="../../controller/Rotas.php" method="POST">
+              <input type="hidden" name="idConta" id="idConta" value="<?php echo $contaId ?>">
+              <input type="hidden" name="acao" id="idConta" value="contaPagar">
+              <input type="hidden" name="valorTotal" value="<?php echo $valorTotal ?>">
               <h4>Forma de Pagamento: </h4>  
               <div class="form-group">
-                <input type="radio" name="cartao" id="credito" value="credito">
+                <input type="radio" name="cartao" id="credito" value="credito" required>
                 <label class="m-0 mr-4" for="credito">Crédito</label>
                 
-                <input type="radio" name="cartao" id="debito" value="debito">
+                <input type="radio" name="cartao" id="debito" value="debito" required>
                 <label class="m-0" for="debito">Débito</label>
               </div>
 
               <h4>Número do cartão: </h4>
               <div class="form-group">
-                <input type="text" class="form-control" id="cartao" name="cartao" placeholder="Digite o número do cartão">
+                <input type="text" class="form-control" id="cartao" name="numeroCartao" placeholder="Digite o número do cartão" required>
               </div>
               
               <button type="submit" class="px-5 mt-4 btn btn-verde">EFETUAR PAGAMENTO</button>

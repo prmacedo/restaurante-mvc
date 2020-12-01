@@ -53,7 +53,34 @@ class PedidoController
     }
   }
 
-  private function buscarValor($produto) {
+  public static function listarPedidos($contaId) {
+    $pedidoDAO = new PedidoDAO();
+    
+    // $conta = $pedidoDAO -> buscar($novaConta);
 
+    $pedidos = $pedidoDAO -> listarPedidos($contaId);
+    // var_dump($pedidos);
+    return $pedidos;
+    
+    // foreach ($pedidos as $pedido) {
+      // $id = $pedido["id"];
+      // $tipoProduto = $pedido["produto_tipo"];
+      // $idProduto = $pedido["produto_id"];
+      // $qtdProduto = $pedido["produto_qtd"];
+      // $conta = $pedido["conta_id"];
+      // $valorParcial = $pedido["valor_parcial"];
+
+    //   $pedido = new Pedido($idProduto, $qtdProduto, $tipoProduto, $conta, $valorParcial);
+    //   $pedido -> setId($id);
+
+      // $pedidoDAO = new PedidoDAO();
+      // if($tipoProduto == "bebida") {
+      //   $pedidoDetalhes = $pedidoDAO -> buscarBebida($idProduto);
+      // } else if($tipoProduto == "comida") {
+      //   $pedidoDetalhes = $pedidoDAO -> buscarComida($idProduto);
+      // }
+    //   var_dump($pedido);
+    //   echo "<br>";
+    // }
   }
 }

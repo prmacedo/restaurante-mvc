@@ -7,6 +7,7 @@ class Conta {
   private $data;
   private $hora;
   private $status;
+  private $listaDeProdutos;
 
   public function __construct($mesa, $cliente, $valorTotal, $data, $hora, $status) {
     $this->mesa = $mesa;
@@ -71,6 +72,14 @@ class Conta {
 
   function setStatus($status) {
     $this->status = $status;
+  }
+
+  function getListaDeProdutos() {
+    return $this->listaDeProdutos;
+  }
+
+  function setListaDeProdutos($listaDeProdutos) {
+    $this->listaDeProdutos = $listaDeProdutos;
   }
    
 }
