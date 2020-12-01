@@ -47,4 +47,28 @@ class ContaController
 
     return $contas;
   }
+
+  public static function listarContasDoDia($data) {
+    $contaDAO = new ContaDAO();
+    
+    $contas = $contaDAO -> listarContasDoDia($data);
+
+    return $contas;
+  }
+
+  public static function aguardar($post) {
+    $contaDAO = new ContaDAO();
+    $contaId = $post["conta"];
+    $contas = $contaDAO -> aguardar($contaId);
+
+    return $contas;
+  }
+
+  public static function entregar($post) {
+    $contaDAO = new ContaDAO();
+    $contaId = $post["contaId"];
+    $contas = $contaDAO -> entregar($contaId);
+
+    return $contas;
+  }
 }

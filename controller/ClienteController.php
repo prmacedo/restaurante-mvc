@@ -1,6 +1,9 @@
 <?php
 
-require ("../model/ClienteDAO.php");
+$directory = explode('\\', __DIR__);
+array_pop($directory);
+$directory = implode('/', $directory);
+require ($directory."/model/ClienteDAO.php");
 
 class ClienteController
 {
@@ -31,5 +34,12 @@ class ClienteController
     SessaoController::autenticarSessaoCliente();
     
     header("Location: ../view/cliente/index.php");
+  }
+
+  public static function buscar($idCliente) {
+    $clienteDAO = new ClienteDAO();
+
+    $cliente = $clienteDAO -> buscar($idCliente);
+    return $cliente;
   }
 }

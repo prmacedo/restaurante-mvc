@@ -7,6 +7,20 @@ require ($directory."/model/CozinheiroDAO.php");
 
 class CozinheiroController
 {
+  public function login($cozinheiro) {
+    $cozinheiroDAO = new CozinheiroDAO();
+    $dadosCozinheiro = $cozinheiroDAO -> login($cozinheiro);
+    if (!empty($dadosCozinheiro)) {
+      SessaoController::autenticarSessaoCozinheiro();
+      
+      $_SESSION["cozinheiro"] = $dadosCozinheiro;
+      header("Location: ../view/cozinheiro/index.php");
+    } else {
+      $_SESSION["erroLogin"] = "Usuário não encontrado";
+      header("Location: ../view/login-cozinha.php");
+    }
+  }
+
   public static function cadastrar($cozinheiro) {
     $cozinheiroDAO = new CozinheiroDAO();
 

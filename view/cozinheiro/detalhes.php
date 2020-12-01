@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+require ("../../model/Conexao.php");
+
+require ("../../controller/SessaoController.php");
+require ("../../controller/ContaController.php");
+require ("../../controller/PedidoController.php");
+require ("../../controller/ProdutoController.php");
+require ("../../controller/ClienteController.php");
+
+
+$data = date('Y-m-d');
+
+SessaoController::validarLoginCozinheiro();
+$listaDeContas = ContaController::listarContasDoDia($data);
+
+$contaId = $_SESSION["contaDetalhe"];
+$conta = ContaController::buscar($contaId);
+
+$idCliente = $conta["cliente_id"];
+$cliente = ClienteController::buscar($idCliente);
+
+$listaDeProdutos = PedidoController::listarPedidos($contaId);
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,30 +66,29 @@
       
       <main>
         <div class="cliente-titulo d-flex align-items-end">
-          <h2>João Carlos - Mesa 07</h2>
-          <p class="ml-4 mb-2">(17h43min)</p>
+          <h2><?php echo $cliente["nome"] ?> - Mesa <?php echo str_pad($conta["mesa"], 2, "0", STR_PAD_LEFT) ?></h2>
+          <p class="ml-4 mb-2">(<?php echo $conta["data"] ?>)</p>
         </div>
 
         <hr>
 
+        <?php foreach ($listaDeProdutos as $produto) { 
+          $produtoDetalhe = ProdutoController::buscarProduto($produto["produto_id"], $produto["produto_tipo"]);
+          $qtd = $produto["produto_qtd"];
+          $nome = $produtoDetalhe["nome"];
+        ?>
         <div class="pedido-grupo">
           <div class="pedido-item d-flex">
-            <p class="mr-3">1</p>
-            <p>Coca-Cola 2L</p>
+            <p class="mr-3"><?php echo $qtd ?></p>
+            <p><?php echo $nome ?></p>
           </div>
+        <?php } ?>
 
-          <div class="pedido-item d-flex">
-            <p class="mr-3">3</p>
-            <p>Misto</p>
-          </div>
-
-          <div class="pedido-item d-flex">
-            <p class="mr-3">2</p>
-            <p>Guaraná Antárctica 1L</p>
-          </div>
-        </div>
-
-        <a href="" class="btn btn-verde px-5">ENTREGAR PEDIDO</a>
+        <form action="../../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="entregarPedido">
+          <input type="hidden" name="contaId" value="<?php echo $contaId ?>">
+          <button class="btn btn-verde px-5">ENTREGAR PEDIDO</button>
+        </form>
       </main>
     </div>
 

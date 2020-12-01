@@ -50,6 +50,22 @@ class ClienteDAO{
     }
   }
 
+  public function buscar($idCliente) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT * FROM cliente WHERE id = :cliente_id";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":cliente_id", $idCliente);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
+
 }
 
 ?>

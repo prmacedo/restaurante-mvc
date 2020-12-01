@@ -85,4 +85,56 @@ class ContaDAO {
     }
   }
 
+  public function listarContasDoDia($data) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT *, DATE_FORMAT(data, '%d de %M de %Y') AS data, TIME_FORMAT(hora, '%H\:%i') as hora FROM conta WHERE data = :data AND status = 'Em preparo' ORDER BY id ASC";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":data", $data);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetchAll();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
+
+  public function aguardar($contaId) {
+    $status = "Em preparo";
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "UPDATE conta SET status = :status WHERE id = :id";
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $contaId);
+      $stmt -> bindParam(":status", $status);
+      
+      $stmt -> execute();
+
+      return true;
+    }
+    catch(PDOException $e){
+      return false;
+    }
+  }
+
+  public function entregar($contaId) {
+    $status = "Pronto";
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "UPDATE conta SET status = :status WHERE id = :id";
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $contaId);
+      $stmt -> bindParam(":status", $status);
+      
+      $stmt -> execute();
+
+      return true;
+    }
+    catch(PDOException $e){
+      return false;
+    }
+  }
+
 }

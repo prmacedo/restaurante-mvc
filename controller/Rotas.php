@@ -159,13 +159,16 @@ else if($acao == "cozinheiroExcluir") {
 else if($acao == "pedidoCadastrar") {
   unset($_POST["acao"]);
   PedidoController::cadastrar($_POST);
+  ContaController::aguardar($_POST);
   header("Location: ../view/cliente/confirmacao.php");
-} else if ($acao == "contaPagar") {
+}
+else if ($acao == "contaPagar") {
   unset($_POST["acao"]);
   ContaController::pagar($_POST);
   PagamentoController::cadastrar($_POST);
   header("Location: ../view/cliente/finalizacao.php");
-} else if ($acao == "continuarPedindo") {
+}
+else if ($acao == "continuarPedindo") {
   // var_dump($_SESSION);
   $mesa = $_SESSION["mesa"] = 4;
   $idCliente = $_SESSION["id"];
@@ -185,8 +188,24 @@ else if($acao == "pedidoCadastrar") {
 
   var_dump($contaAberta);
   header("Location: ../view/cliente/index.php");
-} else if($acao == "verPedido") {
+}
+else if($acao == "verPedido") {
   $_SESSION["contaDetalhe"] = $_POST["contaId"];
   header("Location: ../view/cliente/pedido.php");
+}
+else if ($acao == "cozinheiroLogin") {
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
+  
+  $cozinheiro = new Cozinheiro("", $email, $senha);
+  CozinheiroController::login($cozinheiro);
+}
+else if($acao == "cozinheiroVerPedido") {
+  $_SESSION["contaDetalhe"] = $_POST["contaId"];
+  header("Location: ../view/cozinheiro/detalhes.php");
+}
+else if($acao == "entregarPedido") {
+  $contaAberta = ContaController::entregar($_POST);
+  header("Location: ../view/cozinheiro/");
 }
 

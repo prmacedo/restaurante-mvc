@@ -19,18 +19,6 @@ class GerenteController
     }
   }
 
-  // function buscar($gerenteId) {
-  //   $gerenteDAO = new GerenteDAO();
-
-  //   $dadosGerente = $gerenteDAO -> buscar($gerenteId);
-  //   if (!empty($dadosGerente)) {
-  //     $_SESSION["gerente"] = $dadosGerente;
-  //     header("Location: ../view/gerente/meus-dados/editar.php");
-  //   } else {
-  //     echo "erro";
-  //   }
-  // }
-
   function atualizar($gerente) {
     $gerenteDAO = new GerenteDAO();
     $dadosAtualizados = $gerenteDAO -> atualizar($gerente);

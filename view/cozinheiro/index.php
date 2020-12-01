@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+require ("../../model/Conexao.php");
+
+require ("../../controller/SessaoController.php");
+require ("../../controller/ContaController.php");
+require ("../../controller/ClienteController.php");
+
+$data = date('Y-m-d');
+
+SessaoController::validarLoginCozinheiro();
+$listaDeContas = ContaController::listarContasDoDia($data);
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -47,85 +62,29 @@
             </tr>
           </thead>
           <tbody>
+          <?php foreach ($listaDeContas as $conta) {
+            $idCliente = $conta["cliente_id"];
+            $cliente = ClienteController::buscar($idCliente);
+            $idConta = $conta["id"];
+            $data = $conta["data"];
+            $hora = $conta["hora"];
+            $mesa = $conta["mesa"];
+            $status = $conta["status"];  
+          ?>
             <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
+              <td class="py-3"><?php echo $cliente["nome"] ?></td>
+              <td class="py-3"><?php echo $mesa ?></td>
+              <td class="py-3"><?php echo $data ?></td>
+              <td class="py-3"><?php echo $hora ?></td>
               <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
+                <form action="../../controller/Rotas.php" method="POST">
+                  <input type="hidden" name="acao" value="cozinheiroVerPedido">
+                  <input type="hidden" name="contaId" value="<?php echo $idConta ?>">
+                  <button type="submit" class="btn mr-2 px-2">Ver pedido</button>
+                </form>
               </td>
-            </tr>
-      
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-            
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-            
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-            
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-            
-            <tr>
-              <td class="py-3">João Carlos</td>
-              <td class="py-3">7</td>
-              <td class="py-3">02 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="">
-                <a href="detalhes.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
+            </tr>            
+          <?php } ?>
           </tbody>
         </table>
       </main>

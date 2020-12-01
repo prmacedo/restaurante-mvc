@@ -10,7 +10,7 @@ require ("../../controller/ProdutoController.php");
 
 SessaoController::validarLoginCliente();
 
-echo $contaId = $_SESSION["contaDetalhe"];
+$contaId = $_SESSION["contaDetalhe"];
 $conta = ContaController::buscar($contaId);
 
 $listaDeProdutos = PedidoController::listarPedidos($contaId);

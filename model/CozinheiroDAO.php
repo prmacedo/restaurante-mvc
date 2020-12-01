@@ -1,6 +1,26 @@
 <?php
 class CozinheiroDAO
 {
+
+  public function login($cozinheiro){
+    echo $email = $cozinheiro -> getEmail();
+    echo $senha = $cozinheiro -> getSenha();
+
+    try {
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT * FROM cozinheiro WHERE email = :email AND senha = :senha";
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":email", $email);
+      $stmt -> bindParam(":senha", $senha);  
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e) {
+      var_dump($e);
+    }
+  }
+
   public function cadastrar($novoCozinheiro) {  
     $nome = $novoCozinheiro->getNome();
     $email = $novoCozinheiro->getEmail();

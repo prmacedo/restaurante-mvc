@@ -1,3 +1,10 @@
+<?php
+session_start();
+require ("../controller/SessaoController.php");
+
+SessaoController::finalizarSessao();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -24,7 +31,8 @@
           <h1>Login<br>do Cozinheiro</h1>
         </div>
         
-        <form action="cozinheiro/index.php" method="POST">
+        <form action="../controller/Rotas.php" method="POST">
+          <input type="hidden" name="acao" value="cozinheiroLogin">
           <div class="py-4">
             <div class="form-group">
               <label class="m-0" for="email">E-mail</label>

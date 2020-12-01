@@ -20,6 +20,16 @@ class SessaoController {
     }
   }
 
+  public static function autenticarSessaoCozinheiro() {
+    $_SESSION["authCozinheiro"] = true;
+  }
+
+  public static function validarLoginCozinheiro() {
+    if(!$_SESSION["authCozinheiro"]) {
+      header("Location: ../login-cozinha.php");
+    }
+  }
+
   public static function finalizarSessao(){
     unset($_SESSION);
     session_destroy();
