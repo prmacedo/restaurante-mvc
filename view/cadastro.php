@@ -1,3 +1,10 @@
+<?php
+session_start();
+require ("../controller/SessaoController.php");
+
+SessaoController::finalizarSessao();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
