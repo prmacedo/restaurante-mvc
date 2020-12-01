@@ -1,8 +1,16 @@
 <?php
 session_start();
+
+require ("../../model/Conexao.php");
+
 require ("../../controller/SessaoController.php");
+require ("../../controller/ComidaController.php");
+require ("../../controller/BebidaController.php");
 
 SessaoController::validarLoginCliente();
+
+$comidas = ComidaController::listar();
+$bebidas = BebidaController::listar();
 
 ?>
 
@@ -43,7 +51,8 @@ SessaoController::validarLoginCliente();
       </div>
     </nav>
 
-    <form action="confirmacao.php">
+    <form action="../../controller/Rotas.php" method="POST">
+      <input type="hidden" name="acao" value="pedidoCadastrar">
       <div class="ancora" id="comidas"></div>
 
       <div class="card px-3 m-3">
@@ -61,71 +70,19 @@ SessaoController::validarLoginCliente();
               </tr>
             </thead>
             <tbody>
+            <?php foreach ($comidas as $comida) { ?>
               <tr>
                 <td class="py-3 w50">
-                  <p class="m-0">Misto</p>
-                  <small>Pão, queijo e presunto</small>
+                  <p class="m-0"><?php echo $comida["nome"] ?></p>
+                  <small><?php echo $comida["descricao"] ?></small>
                 </td>
-                <td class="py-3 w20">R$ 5,90</td>
+                <td class="py-3 w20">R$ <?php echo number_format($comida["preco"], 2, ',', '.') ?></td>
                 <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
+                  <input type="number" name="qtd-comida-<?php echo $comida["id"] ?>" min="0" value="0" class="qtd-input">
+                  <input type="hidden" name="comida-<?php echo $comida["id"] ?>"value="<?php echo $comida["id"] ?>">
                 </td>
-              </tr>
-        
-              <tr>
-                <td class="py-3 w50">
-                  <p class="m-0">Misto</p>
-                  <small>Pão, queijo e presunto</small>
-                </td>
-                <td class="py-3 w20">R$ 5,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-3 w50">
-                  <p class="m-0">Misto</p>
-                  <small>Pão, queijo e presunto</small>
-                </td>
-                <td class="py-3 w20">R$ 5,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-3 w50">
-                  <p class="m-0">Misto</p>
-                  <small>Pão, queijo e presunto</small>
-                </td>
-                <td class="py-3 w20">R$ 5,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-3 w50">
-                  <p class="m-0">Misto</p>
-                  <small>Pão, queijo e presunto</small>
-                </td>
-                <td class="py-3 w20">R$ 5,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
-
-              <tr>
-                <td class="py-3 w50">
-                  <p class="m-0">Misto</p>
-                  <small>Pão, queijo e presunto</small>
-                </td>
-                <td class="py-3 w20">R$ 5,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
+              </tr>  
+            <?php } ?>
             </tbody>
           </table>
         </main>
@@ -148,32 +105,16 @@ SessaoController::validarLoginCliente();
               </tr>
             </thead>
             <tbody>
+            <?php foreach ($bebidas as $bebida) { ?>
               <tr>
-                <td class="py-3 w50">Coca-Cola 2L
-                </td>
-                <td class="py-3 w20">R$ 8,90</td>
+                <td class="py-3 w50"><?php echo $bebida["nome"] ?></td>
+                <td class="py-3 w20">R$ <?php echo number_format($bebida["preco"], 2, ',', '.') ?></td>
                 <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
+                  <input type="number" name="qtd-bebiba-<?php echo $bebida["id"] ?>" min="0" value="0" class="qtd-input">
+                  <input type="hidden" name="bebida-<?php echo $bebida["id"] ?>" value="<?php echo $bebida["id"] ?>">
                 </td>
               </tr>
-        
-              <tr>
-                <td class="py-3 w50">Coca-Cola 2L
-                </td>
-                <td class="py-3 w20">R$ 8,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
-              
-              <tr>
-                <td class="py-3 w50">Coca-Cola 2L
-                </td>
-                <td class="py-3 w20">R$ 8,90</td>
-                <td class="w30">
-                  <input type="number" min="0" value="0" class="qtd-input">
-                </td>
-              </tr>
+            <?php } ?>
             </tbody>
           </table>
         </main>

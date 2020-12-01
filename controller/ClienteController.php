@@ -16,10 +16,9 @@ class ClienteController
 
       SessaoController::autenticarSessaoCliente();
       
-      header("Location: ../view/cliente/index.php");
+      return $dadosCliente["id"];
     } else {
       $_SESSION["erroLogin"] = "Usuário não encontrado";
-      header("Location: ../view/");
     }
   }
 

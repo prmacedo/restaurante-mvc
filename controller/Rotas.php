@@ -19,6 +19,12 @@ require ('ComidaController.php');
 require ('../model/Cozinheiro.php');
 require ('CozinheiroController.php');
 
+require ('../model/Pedido.php');
+require ('PedidoController.php');
+
+require ('../model/Conta.php');
+require ('ContaController.php');
+
 if (empty($_POST)) {
   header('Location: ../view');
 }
@@ -30,9 +36,20 @@ if ($acao == "clienteLogin") {
   $mesa = $_POST["mesa"];
   $email = $_POST["email"];
   $senha = $_POST["senha"];
+  $data = date('Y-m-d');
 
   $cliente = new Cliente("", $email, $senha);
-  ClienteController::login($cliente);
+  $idCliente = ClienteController::login($cliente);
+  $cliente -> setId($idCliente);
+
+  $conta = new Conta($mesa, $cliente, 0, $data);
+  $contaAberta = ContaController::cadastrar($conta);
+
+  if($contaAberta > 0) {
+    header("Location: ../view/cliente/index.php");
+  } else {
+    header("Location: ../view/");
+  }
 }
 else if ($acao == "clienteCadastrar") {
   $nome = $_POST["nome"];
@@ -133,5 +150,13 @@ else if($acao == "cozinheiroExcluir") {
   $id = $_POST["id"];
   
   CozinheiroController::excluir($id);
+}
+else if($acao == "pedidoCadastrar") {
+  unset($_POST["acao"]);
+  PedidoController::cadastrar($_POST);
+}
+else if($acao == "pedidoItems") {
+  unset($_POST["acao"]);
+  PedidoController::cadastrar($_POST);
 }
 
