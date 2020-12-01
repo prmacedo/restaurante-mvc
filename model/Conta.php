@@ -5,12 +5,16 @@ class Conta {
   private $cliente;
   private $valorTotal;
   private $data;
+  private $hora;
+  private $status;
 
-  public function __construct($mesa, $cliente, $valorTotal, $data) {
+  public function __construct($mesa, $cliente, $valorTotal, $data, $hora, $status) {
     $this->mesa = $mesa;
     $this->cliente = $cliente;
     $this->valorTotal = $valorTotal;
     $this->data = $data;
+    $this->hora = $hora;
+    $this->status = $status;
   }
 
   function getId() {
@@ -44,7 +48,6 @@ class Conta {
   function setValorTotal($valorTotal) {
     $this->valorTotal = $valorTotal;
   }
-
       
   function getData() {
     return $this->data;
@@ -54,5 +57,20 @@ class Conta {
     $this->data = $data;
   }
 
+  function getHora() {
+    return $this->hora;
+  }
+
+  function setHora($hora) {
+    $this->hora = $hora;
+  }
+
+  function getStatus() {
+    return $this->status;
+  }
+
+  function setStatus($status) {
+    $this->status = $status;
+  }
    
 }

@@ -19,7 +19,6 @@ require ('ComidaController.php');
 require ('../model/Cozinheiro.php');
 require ('CozinheiroController.php');
 
-require ('../model/Pedido.php');
 require ('PedidoController.php');
 
 require ('../model/Conta.php');
@@ -36,13 +35,17 @@ if ($acao == "clienteLogin") {
   $mesa = $_POST["mesa"];
   $email = $_POST["email"];
   $senha = $_POST["senha"];
+
+  date_default_timezone_set("America/Bahia");
   $data = date('Y-m-d');
+  $hora = date('H:i');
+  $status = "Aberta";
 
   $cliente = new Cliente("", $email, $senha);
   $idCliente = ClienteController::login($cliente);
   $cliente -> setId($idCliente);
 
-  $conta = new Conta($mesa, $cliente, 0, $data);
+  $conta = new Conta($mesa, $cliente, 0, $data, $hora, $status);
   $contaAberta = ContaController::cadastrar($conta);
 
   if($contaAberta > 0) {
@@ -154,9 +157,6 @@ else if($acao == "cozinheiroExcluir") {
 else if($acao == "pedidoCadastrar") {
   unset($_POST["acao"]);
   PedidoController::cadastrar($_POST);
-}
-else if($acao == "pedidoItems") {
-  unset($_POST["acao"]);
-  PedidoController::cadastrar($_POST);
+  header("Location: ../view/cliente/confirmacao.php");
 }
 

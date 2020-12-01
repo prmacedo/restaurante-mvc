@@ -11,6 +11,7 @@ SessaoController::validarLoginCliente();
 
 $comidas = ComidaController::listar();
 $bebidas = BebidaController::listar();
+$conta = $_SESSION["conta"];
 
 ?>
 
@@ -53,6 +54,7 @@ $bebidas = BebidaController::listar();
 
     <form action="../../controller/Rotas.php" method="POST">
       <input type="hidden" name="acao" value="pedidoCadastrar">
+      <input type="hidden" name="conta" value="<?php echo $conta ?>">
       <div class="ancora" id="comidas"></div>
 
       <div class="card px-3 m-3">
@@ -79,7 +81,8 @@ $bebidas = BebidaController::listar();
                 <td class="py-3 w20">R$ <?php echo number_format($comida["preco"], 2, ',', '.') ?></td>
                 <td class="w30">
                   <input type="number" name="qtd-comida-<?php echo $comida["id"] ?>" min="0" value="0" class="qtd-input">
-                  <input type="hidden" name="comida-<?php echo $comida["id"] ?>"value="<?php echo $comida["id"] ?>">
+                  <input type="hidden" name="id-comida-<?php echo $comida["id"] ?>"value="<?php echo $comida["id"] ?>">
+                  <input type="hidden" name="preco-comida-<?php echo $comida["id"] ?>"value="<?php echo $comida["preco"] ?>">
                 </td>
               </tr>  
             <?php } ?>
@@ -111,7 +114,8 @@ $bebidas = BebidaController::listar();
                 <td class="py-3 w20">R$ <?php echo number_format($bebida["preco"], 2, ',', '.') ?></td>
                 <td class="w30">
                   <input type="number" name="qtd-bebiba-<?php echo $bebida["id"] ?>" min="0" value="0" class="qtd-input">
-                  <input type="hidden" name="bebida-<?php echo $bebida["id"] ?>" value="<?php echo $bebida["id"] ?>">
+                  <input type="hidden" name="id-bebida-<?php echo $bebida["id"] ?>" value="<?php echo $bebida["id"] ?>">
+                  <input type="hidden" name="preco-bebida-<?php echo $bebida["id"] ?>" value="<?php echo $bebida["preco"] ?>">
                 </td>
               </tr>
             <?php } ?>

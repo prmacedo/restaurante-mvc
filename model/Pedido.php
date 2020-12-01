@@ -1,16 +1,18 @@
 <?php
 class Pedido {
   private $id;
-  private $mesa;
-  private $cliente;
-  private $valorTotal;
-  private $dataDoPedido;
+  private $idProduto;
+  private $qtdProduto;
+  private $tipoProduto;
+  private $conta;
+  private $valorParcial;
 
-  public function __construct($mesa, $cliente, $valorTotal, $dataDoPedido) {
-    $this->mesa = $mesa;
-    $this->cliente = $cliente;
-    $this->valorTotal = $valorTotal;
-    $this->dataDoPedido = $dataDoPedido;
+  public function __construct($idProduto, $qtdProduto, $tipoProduto, $conta, $valorParcial) {
+    $this->idProduto = $idProduto;
+    $this->qtdProduto = $qtdProduto;
+    $this->tipoProduto = $tipoProduto;
+    $this->conta = $conta;
+    $this->valorParcial = $valorParcial;
   }
 
   function getId() {
@@ -21,38 +23,44 @@ class Pedido {
     $this->id = $id;
   }
 
-  function getMesa() {
-    return $this->mesa;
+  function getIdProduto() {
+    return $this->idProduto;
   }
 
-  function setMesa($mesa) {
-    $this->mesa = $mesa;
+  function setIdProduto($idProduto) {
+    $this->idProduto = $idProduto;
   }
 
-  function getCliente() {
-    return $this->cliente;
+  function getQtdProduto() {
+    return $this->qtdProduto;
   }
 
-  function setCliente($cliente) {
-    $this->cliente = $cliente;
-  } 
-
-  function getValorTotal() {
-    return $this->valorTotal;
+  function setQtdProduto($qtdProduto) {
+    $this->qtdProduto = $qtdProduto;
   }
 
-  function setValorTotal($valorTotal) {
-    $this->valorTotal = $valorTotal;
+  function getTipoProduto() {
+    return $this->tipoProduto;
   }
 
-      
-  function getDataDoPedido() {
-    return $this->dataDoPedido;
+  function setTipoProduto($tipoProduto) {
+    $this->tipoProduto = $tipoProduto;
   }
 
-  function setDataDoPedido($dataDoPedido) {
-    $this->dataDoPedido = $dataDoPedido;
+  function getConta() {
+    return $this->conta;
   }
 
-   
+  function setConta($conta) {
+    $this->conta = $conta;
+  }
+
+  function getValorParcial() {
+    return $this->valorParcial;
+  }
+
+  function setValorParcial($valorParcial) {
+    $this->valorParcial = $valorParcial;
+  }
+
 }

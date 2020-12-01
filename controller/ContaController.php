@@ -10,7 +10,8 @@ class ContaController
   public function cadastrar($novaConta) {
     $contaDAO = new ContaDAO();
 
-    return $contaDAO -> cadastrar($novaConta);
-  
+    $conta = $contaDAO -> cadastrar($novaConta);
+    $_SESSION["conta"] = $conta;
+    return $conta;
   }
 }
