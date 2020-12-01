@@ -185,6 +185,8 @@ else if($acao == "pedidoCadastrar") {
 
   var_dump($contaAberta);
   header("Location: ../view/cliente/index.php");
-
+} else if($acao == "verPedido") {
+  $_SESSION["contaDetalhe"] = $_POST["contaId"];
+  header("Location: ../view/cliente/pedido.php");
 }
 

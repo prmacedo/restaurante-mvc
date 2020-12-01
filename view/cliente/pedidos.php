@@ -1,8 +1,16 @@
 <?php
 session_start();
+
+require ("../../model/Conexao.php");
+
 require ("../../controller/SessaoController.php");
+require ("../../controller/ContaController.php");
 
 SessaoController::validarLoginCliente();
+
+$idCliente = $_SESSION["id"];
+
+$listaDeContas = ContaController::listarContas($idCliente);
 
 ?>
 
@@ -62,45 +70,29 @@ SessaoController::validarLoginCliente();
             </tr>
           </thead>
           <tbody>
+          <?php foreach ($listaDeContas as $conta) { 
+            $idConta = $conta["id"];
+            $data = $conta["data"];
+            $hora = $conta["hora"];
+            $mesa = $conta["mesa"];
+            $status = $conta["status"];
+          ?>
             <tr>
-              <td class="py-3">12 de outubro <small>(Hoje)</small></td>
-              <td class="py-3">14:47</td>
-              <td class="py-3">7</td>
-              <td class="py-3">Em preparo</td>
+              <td class="py-3"><?php echo $data ?></td>
+              <td class="py-3"><?php echo $hora ?></td>
+              <td class="py-3"><?php echo $mesa ?></td>
+              <td class="py-3"><?php echo $status ?></td>
               <td class="">
-                <a href="pedido.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
+                <form action="../../controller/Rotas.php" method="POST">
+                  <input type="hidden" name="acao" value="verPedido">
+                  <input type="hidden" name="contaId" value="<?php echo $idConta ?>">
+                  <button type="submit" class="btn mr-2 px-2">Ver pedido</a>
+                  <!-- <a href="pedido.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a> -->
+                </form>
               </td>
-            </tr>
-    
-            <tr>
-              <td class="py-3">12 de outubro <small>(Hoje)</small></td>
-              <td class="py-3">14:47</td>
-              <td class="py-3">7</td>
-              <td class="py-3">Pronto</td>
-              <td class="">
-                <a href="pedido.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-    
-            <tr>
-              <td class="py-3">01 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="py-3">7</td>
-              <td class="py-3">Pago</td>
-              <td class="">
-                <a href="pedido.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
-    
-            <tr>
-              <td class="py-3">01 de outubro</td>
-              <td class="py-3">14:47</td>
-              <td class="py-3">7</td>
-              <td class="py-3">Pago</td>
-              <td class="">
-                <a href="pedido.php" class="btn mr-2 px-0" title="Editar cadastro">Ver pedido</a>
-              </td>
-            </tr>
+            </tr>            
+          <?php } ?>
+
           </tbody>
         </table>
       </main>

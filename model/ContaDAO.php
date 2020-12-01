@@ -31,22 +31,6 @@ class ContaDAO {
 
   }
 
-  public function detalhar($contaId) {
-    try{
-      $minhaConexao = Conexao::getConexao();
-      $sql = "SELECT * FROM pedido WHERE conta_id = :conta_id";      
-      $stmt = $minhaConexao -> prepare($sql);
-      $stmt -> bindParam(":conta_id", $contaId);
-      
-      $stmt -> execute();
-
-      return $stmt -> fetchAll();
-    }
-    catch(PDOException $e){
-      return -1;
-    }
-  }
-
   public function buscar($contaId) {
     try{
       $minhaConexao = Conexao::getConexao();
@@ -57,6 +41,22 @@ class ContaDAO {
       $stmt -> execute();
 
       return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
+
+  public function listarContas($clienteId) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT *, DATE_FORMAT(data, '%d de %M de %Y') AS data, TIME_FORMAT(hora, '%H\:%i') as hora FROM conta WHERE cliente_id = :cliente_id ORDER BY data, hora DESC";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":cliente_id", $clienteId);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetchAll();
     }
     catch(PDOException $e){
       return -1;

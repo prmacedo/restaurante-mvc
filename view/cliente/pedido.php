@@ -1,8 +1,19 @@
 <?php
 session_start();
+
+require ("../../model/Conexao.php");
+
 require ("../../controller/SessaoController.php");
+require ("../../controller/ContaController.php");
+require ("../../controller/PedidoController.php");
+require ("../../controller/ProdutoController.php");
 
 SessaoController::validarLoginCliente();
+
+echo $contaId = $_SESSION["contaDetalhe"];
+$conta = ContaController::buscar($contaId);
+
+$listaDeProdutos = PedidoController::listarPedidos($contaId);
 
 ?>
 
@@ -48,28 +59,26 @@ SessaoController::validarLoginCliente();
     <div class="px-3 m-3">
       <main>
         <a class="voltar" href="pedidos.php">← Voltar</a>
+        
         <div class="cliente-titulo d-flex align-items-end">
-          <h2>Mesa 07</h2>
-          <p class="ml-4 mb-2">(17h43min)</p>
+          <h2>Mesa <?php echo str_pad($conta["mesa"], 2, "0", STR_PAD_LEFT) ?></h2>
+          <p class="ml-4 mb-2">(<?php echo $conta["data"] ?>)</p>
         </div>
       
         <hr>
       
+        <?php foreach ($listaDeProdutos as $produto) { 
+          $produtoDetalhe = ProdutoController::buscarProduto($produto["produto_id"], $produto["produto_tipo"]);
+          $qtd = $produto["produto_qtd"];
+          $nome = $produtoDetalhe["nome"];
+        ?>
         <div class="pedido-grupo">
           <div class="pedido-item d-flex">
-            <p class="mr-3">1</p>
-            <p>Coca-Cola 2L</p>
+            <p class="mr-3"><?php echo $qtd ?></p>
+            <p><?php echo $nome ?></p>
           </div>
-      
-          <div class="pedido-item d-flex">
-            <p class="mr-3">3</p>
-            <p>Misto</p>
-          </div>
-      
-          <div class="pedido-item d-flex">
-            <p class="mr-3">2</p>
-            <p>Guaraná Antárctica 1L</p>
-          </div>
+        <?php } ?>
+          
         </div>
       </main>
     </div>

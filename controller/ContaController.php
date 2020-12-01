@@ -39,4 +39,12 @@ class ContaController
 
     return $conta;
   }
+
+  public static function listarContas($clienteId) {
+    $contaDAO = new ContaDAO();
+    
+    $contas = $contaDAO -> listarContas($clienteId);
+
+    return $contas;
+  }
 }
