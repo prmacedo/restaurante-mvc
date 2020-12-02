@@ -66,6 +66,54 @@ class ClienteDAO{
     }
   }
 
+  public function atualizarBonus($idCliente, $bonus) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "UPDATE cliente SET bonus=:bonus WHERE id=:id";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $idCliente);
+      $stmt -> bindParam(":bonus", $bonus);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
+
+  public function validarDesconto($idCliente) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT bonus FROM cliente JOIN conta ON cliente.id = conta.cliente_id WHERE cliente.id = :id AND conta.data = CURRENT_DATE AND status = 'Pago' ORDER BY conta.id DESC";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $idCliente);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
+
+  public function buscarDesconto($idCliente) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "SELECT bonus FROM cliente JOIN conta ON cliente.id = conta.cliente_id WHERE cliente.id = :id AND conta.data < CURRENT_DATE ORDER BY conta.id DESC";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $idCliente);
+      
+      $stmt -> execute();
+
+      return $stmt -> fetch();
+    }
+    catch(PDOException $e){
+      return -1;
+    }
+  }
 }
 
 ?>

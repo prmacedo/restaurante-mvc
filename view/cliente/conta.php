@@ -7,14 +7,17 @@ require ("../../controller/SessaoController.php");
 require ("../../controller/ContaController.php");
 require ("../../controller/PedidoController.php");
 require ("../../controller/ProdutoController.php");
+require ("../../controller/ClienteController.php");
 
 SessaoController::validarLoginCliente();
 
-$contaId = $_SESSION["conta"];
+$contaId = $_GET["idConta"];
 $conta = ContaController::buscar($contaId);
 $listaDeProdutos = PedidoController::listarPedidos($contaId);
-
+$clienteId = $conta["cliente_id"];
 $valorTotal = 0;
+
+$bonus = ClienteController::aplicarDesconto($clienteId)["bonus"];
 ?>
 
 <!doctype html>
@@ -88,13 +91,16 @@ $valorTotal = 0;
               <td class="w20">R$ <?php echo $preco ?></td>
               <td class="w30">R$ <?php echo $precoParcial ?></td>
             </tr>
-          <?php } ?>
-            <tr>
-              <td class="w50"><b>Bônus</b></td>
-              <td class="w20">--</td>
-              <td class="w30"><b>R$ 5,70</b></td>
-            </tr>
-
+          <?php } 
+            if ($bonus > 0) { 
+              $valorTotal -= $bonus;  
+            ?>
+              <tr>
+                <td class="w50"><b>Bônus</b></td>
+                <td class="w20">--</td>
+                <td class="w30"><b>R$ <?php echo number_format($bonus, 2, ',', '.') ?></b></td>
+              </tr>              
+          <?php } ?>          
           </tbody>
         </table>
 
@@ -127,6 +133,7 @@ $valorTotal = 0;
           <div class="modal-body px-4 pb-5">
             <form action="../../controller/Rotas.php" method="POST">
               <input type="hidden" name="idConta" id="idConta" value="<?php echo $contaId ?>">
+              <input type="hidden" name="idCliente" id="idCliente" value="<?php echo $clienteId ?>">
               <input type="hidden" name="acao" id="idConta" value="contaPagar">
               <input type="hidden" name="valorTotal" value="<?php echo $valorTotal ?>">
               <h4>Forma de Pagamento: </h4>  

@@ -62,7 +62,13 @@ else if ($acao == "clienteCadastrar") {
   $senha = $_POST["cpf"];
 
   $cliente = new Cliente($nome, $email, $senha);
-  ClienteController::cadastrar($cliente);
+  $id = ClienteController::cadastrar($cliente);
+
+  if ($id > 0) {
+    header("Location: ../view/index.php");    
+  } else {
+    header("Location: ../view/cadastro.php");    
+  }
 }
 else if ($acao == "gerenteLogin") {
   $email = $_POST["email"];
@@ -171,15 +177,14 @@ else if ($acao == "contaPagar") {
   unset($_POST["acao"]);
   ContaController::pagar($_POST);
   PagamentoController::cadastrar($_POST);
+  ClienteController::atualizarBonus($_POST);
   header("Location: ../view/cliente/finalizacao.php");
 }
 else if ($acao == "continuarPedindo") {
-  // var_dump($_SESSION);
-  $mesa = $_SESSION["mesa"] = 4;
+  $mesa = $_SESSION["mesa"];
   $idCliente = $_SESSION["id"];
   $email = $_SESSION["email"];
 
-  // var_dump($_SESSION);
   date_default_timezone_set("America/Bahia");
   $data = date('Y-m-d');
   $hora = date('H:i');
@@ -225,5 +230,16 @@ else if($acao == "cozinheiroAtualizar") {
     header("Location: ../view/cozinheiro/meus-dados/");
   } else {
     header("Location: ../view/cozinheiro/meus-dados/editar.php");
+  }
+}
+else if($acao == "clienteSair") {
+  unset($_POST["acao"]);
+  var_dump($_POST);
+  $permissao = ContaController::verificarStatus($_POST["contaId"]);
+  
+  if (!$permissao) {
+    header("Location: ../view/cliente/pedidos.php");
+  } else {
+    header("Location: ../view/");
   }
 }

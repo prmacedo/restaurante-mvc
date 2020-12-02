@@ -71,4 +71,19 @@ class ContaController
 
     return $contas;
   }
+
+  public static function verificarStatus($contaId) {
+    $contaDAO = new ContaDAO();
+    
+    $conta = $contaDAO -> buscar($contaId);
+    $status = $conta["status"];
+    if ($status == 'Aberta') {
+      return $contaDAO -> excluir($contaId);      
+    } else if($status == 'Pago'){
+      return true;
+    } else {
+      $_SESSION["erroDeslogar"] = "Ainda existem contas a serem pagas.";
+      return false;
+    }
+  }
 }

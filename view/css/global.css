@@ -44,12 +44,13 @@ nav.bg-azul {
   background-color: var(--azul)!important;
 }
 
-nav a {
+nav a, nav form {
   color: #fff!important;
   font-family: 'Poppins', sans-serif;
+  background: transparent;
 }
 
-nav a:hover {
+nav a:hover, nav form:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -57,3 +58,8 @@ nav img {
   height: 2rem;
 }
 
+.transparent {
+  background-color: transparent;
+  color: #fff!important;
+  font-weight: 400;
+}

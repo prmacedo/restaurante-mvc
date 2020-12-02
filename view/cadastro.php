@@ -1,9 +1,6 @@
 <?php
 session_start();
 require ("../controller/SessaoController.php");
-
-SessaoController::finalizarSessao();
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -30,6 +27,11 @@ SessaoController::finalizarSessao();
         <div class="header">
           <h1>Cadastre-se</h1>
           <p>Realize o cadastro para fazer seus pedidos!</p>
+          <?php
+            if (!empty($_SESSION["erroCadastrarCliente"])) {
+              echo $_SESSION["erroCadastrarCliente"];
+            }
+          ?>
         </div>
         
         <form action="../controller/Rotas.php" method="POST">
@@ -65,3 +67,4 @@ SessaoController::finalizarSessao();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
+

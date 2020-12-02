@@ -22,6 +22,7 @@ class ClienteController
       return $dadosCliente["id"];
     } else {
       $_SESSION["erroLogin"] = "Usuário não encontrado";
+      return -1;
     }
   }
 
@@ -29,11 +30,11 @@ class ClienteController
     $clienteDAO = new ClienteDAO();
 
     $id = $clienteDAO -> incluir($novoCliente);
-    $_SESSION["id"] = $id;
 
-    SessaoController::autenticarSessaoCliente();
-    
-    header("Location: ../view/cliente/index.php");
+    if ($id = 0) {
+      $_SESSION["erroCadastrarCliente"] = "Erro ao cadastrar!";
+    }
+    return $id;
   }
 
   public static function buscar($idCliente) {
@@ -41,5 +42,26 @@ class ClienteController
 
     $cliente = $clienteDAO -> buscar($idCliente);
     return $cliente;
+  }
+
+  public static function atualizarBonus($post) {
+    $clienteDAO = new ClienteDAO();
+
+    $bonus = 0.1*$post["valorTotal"];
+    $idCliente = $post["idCliente"];
+    
+    $cliente = $clienteDAO -> atualizarBonus($idCliente, $bonus);
+  }
+
+  public static function aplicarDesconto($idCliente) {
+    $clienteDAO = new ClienteDAO();
+    $bonus = $clienteDAO -> validarDesconto($idCliente);
+    if(!empty($bonus)) {
+      $bonus = 0;
+    } else {
+      $bonus = $clienteDAO -> buscarDesconto($idCliente);
+    }
+
+    return $bonus;
   }
 }

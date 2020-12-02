@@ -56,6 +56,14 @@ $listaDeContas = ContaController::listarContas($idCliente);
     <div class="px-3 m-3">
       <header>
         <h1 class="my-4">Meus Pedidos</h1>
+        <?php if(isset($_SESSION["erroDeslogar"])) {?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <?php echo $_SESSION["erroDeslogar"] ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <?php } ?>
       </header>
     
       <main>

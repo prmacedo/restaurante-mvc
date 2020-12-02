@@ -39,7 +39,6 @@ SessaoController::validarLoginCliente();
         
         <div class="row mx-1 justify-content-center">
           <a href="pedidos.php" class="btn btn-outline-azul col-12 col-md-3">Acompanhar Pedido</a>
-          <a href="conta.php" class="btn btn-verde col-12 col-md-3 offset-md-2 mt-3 mt-md-0">Realizar Pagamento</a>
         </div>
       </div>
     </div>

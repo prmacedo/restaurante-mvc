@@ -60,9 +60,9 @@ $listaDeProdutos = PedidoController::listarPedidos($contaId);
       <main>
         <a class="voltar" href="pedidos.php">← Voltar</a>
         
-        <div class="cliente-titulo d-flex align-items-end">
+        <div class="cliente-titulo d-flex flex-column flex-md-row align-items-md-end">
           <h2>Mesa <?php echo str_pad($conta["mesa"], 2, "0", STR_PAD_LEFT) ?></h2>
-          <p class="ml-4 mb-2">(<?php echo $conta["data"] ?>)</p>
+          <p class="ml-md-4 mb-2">(<?php echo $conta["data"] ?>)</p>
         </div>
       
         <hr>
@@ -80,6 +80,9 @@ $listaDeProdutos = PedidoController::listarPedidos($contaId);
         <?php } ?>
           
         </div>
+        <?php if($conta["status"] == 'Pronto') {?>
+        <a href="conta.php?idConta=<?php echo $conta["id"] ?>" class="btn btn-verde px-5 mt-3 mt-md-0">Realizar Pagamento</a>
+        <?php } ?>
       </main>
     </div>
     

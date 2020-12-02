@@ -47,7 +47,12 @@ $conta = $_SESSION["conta"];
         </div>
         <div class="navbar-nav">
           <a href="pedidos.php" class="nav-item nav-link d-flex align-items-center py-3 mr-3"><img src="../img/cardapio.svg" alt="Pedidos" class="mr-2"> Meus Pedidos</a>
-          <a href="../index.php" class="nav-item nav-link d-flex align-items-center py-3"><img src="../img/logout.svg" alt="Sair" class="mr-2"> Sair</a>
+          <form action="../../controller/Rotas.php" method="post" class="d-flex align-items-center px-2">
+            <img src="../img/logout.svg" alt="Sair" class="mr-2">
+            <input type="hidden" name="acao" value="clienteSair">
+            <input type="hidden" name="contaId" value="<?php echo $conta ?>">
+            <button href="../index.php" class="btn transparent nav-item nav-link d-flex align-items-center py-3"> Sair</button>
+          </form>
         </div>
       </div>
     </nav>

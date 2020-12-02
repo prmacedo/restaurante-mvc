@@ -50,7 +50,7 @@ class ContaDAO {
   public function listarContas($clienteId) {
     try{
       $minhaConexao = Conexao::getConexao();
-      $sql = "SELECT *, DATE_FORMAT(data, '%d de %M de %Y') AS data, TIME_FORMAT(hora, '%H\:%i') as hora FROM conta WHERE cliente_id = :cliente_id ORDER BY data, hora DESC";      
+      $sql = "SELECT *, DATE_FORMAT(data, '%d de %M de %Y') AS data, TIME_FORMAT(hora, '%H\:%i') as hora FROM conta WHERE cliente_id = :cliente_id ORDER BY id DESC";      
       $stmt = $minhaConexao -> prepare($sql);
       $stmt -> bindParam(":cliente_id", $clienteId);
       
@@ -127,6 +127,22 @@ class ContaDAO {
       $stmt = $minhaConexao -> prepare($sql);
       $stmt -> bindParam(":id", $contaId);
       $stmt -> bindParam(":status", $status);
+      
+      $stmt -> execute();
+
+      return true;
+    }
+    catch(PDOException $e){
+      return false;
+    }
+  }
+
+  public function excluir($contaId) {
+    try{
+      $minhaConexao = Conexao::getConexao();
+      $sql = "DELETE FROM conta WHERE id = :id";      
+      $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $contaId);
       
       $stmt -> execute();
 
