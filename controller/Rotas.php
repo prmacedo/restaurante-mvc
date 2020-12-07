@@ -234,12 +234,13 @@ else if($acao == "cozinheiroAtualizar") {
 }
 else if($acao == "clienteSair") {
   unset($_POST["acao"]);
-  var_dump($_POST);
   $permissao = ContaController::verificarStatus($_POST["contaId"]);
+  
   
   if (!$permissao) {
     header("Location: ../view/cliente/pedidos.php");
   } else {
+    SessaoController::finalizarSessao();
     header("Location: ../view/");
   }
 }

@@ -50,7 +50,7 @@ class ContaDAO {
   public function listarContas($clienteId) {
     try{
       $minhaConexao = Conexao::getConexao();
-      $sql = "SELECT *, DATE_FORMAT(data, '%d de %M de %Y') AS data, TIME_FORMAT(hora, '%H\:%i') as hora FROM conta WHERE cliente_id = :cliente_id ORDER BY id DESC";      
+      $sql = "SELECT *, DATE_FORMAT(data, '%d de %M de %Y') AS data, TIME_FORMAT(hora, '%H\:%i') as hora FROM conta WHERE cliente_id = :cliente_id AND status <> 'Aberta' ORDER BY id DESC";      
       $stmt = $minhaConexao -> prepare($sql);
       $stmt -> bindParam(":cliente_id", $clienteId);
       
