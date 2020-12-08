@@ -20,21 +20,6 @@ class GerenteDAO{
     }
   }
 
-  // public function buscar($gerenteId) {
-  //   try {
-  //     $minhaConexao = Conexao::getConexao();
-  //     $sql = "SELECT id, nome, email, senha FROM gerente WHERE id = :id"; 
-  //     $stmt = $minhaConexao -> prepare($sql);
-  //     $stmt -> bindParam(":id", $gerenteId);  
-  //     $stmt -> execute();
-
-  //     return $stmt -> fetch();
-  //   }
-  //   catch(PDOException $e) {
-  //     return 0;
-  //   }
-  // }
-
   public function atualizar($gerente){
     $id = $gerente -> getId();
     $nome = $gerente -> getNome();
@@ -59,7 +44,7 @@ class GerenteDAO{
       return $stmt -> fetch();
     }
     catch(PDOException $e) {
-      return 0;
+      return false;
     }
   }
 

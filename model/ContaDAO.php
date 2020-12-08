@@ -97,7 +97,7 @@ class ContaDAO {
       return $stmt -> fetchAll();
     }
     catch(PDOException $e){
-      return -1;
+      return null;
     }
   }
 

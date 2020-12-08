@@ -5,7 +5,6 @@ require ("../../../controller/SessaoController.php");
 SessaoController::validarLoginGerente();
 
 $infoGerente = $_SESSION["gerente"];
-// var_dump($infoGerente);
 ?>
 <!doctype html>
 <html lang="en">

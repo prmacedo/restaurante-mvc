@@ -39,7 +39,7 @@ class CozinheiroDAO
       return true;
     }
     catch(PDOException $e){
-      return 0;
+      return false;
     }
   }
 

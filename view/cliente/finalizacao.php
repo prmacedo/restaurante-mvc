@@ -41,6 +41,7 @@ SessaoController::validarLoginCliente();
           <a href="../index.php" class="btn btn-outline-azul col-12 col-md-3">Sair da plataforma</a>
           <form action="../../controller/Rotas.php" method="POST" class="col-12 col-md-3 offset-md-2 px-0 mt-3 mt-md-0">
             <input type="hidden" name="acao" value="continuarPedindo">
+            <input type="hidden" name="mesa" value="<?php echo $_SESSION['mesa'] ?>">
             <button type="submit" class="btn btn-verde">Continuar Pedindo</button>
           </form>
         </div>

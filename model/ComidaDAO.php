@@ -2,14 +2,16 @@
 class ComidaDAO
 {
   public function cadastrar($novaComida) {  
+    $id = $novaComida->getId();
     $nome = $novaComida->getNome();
     $preco = $novaComida->getPreco();
     $descricao = $novaComida->getDescricao();
 
     try{
       $minhaConexao = Conexao::getConexao();
-      $sql = "INSERT INTO comida(nome, preco, descricao) VALUES (:nome, :preco, :descricao)";      
+      $sql = "INSERT INTO comida(id, nome, preco, descricao) VALUES (:id, :nome, :preco, :descricao)";      
       $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $id);
       $stmt -> bindParam(":nome", $nome);
       $stmt -> bindParam(":preco", $preco);
       $stmt -> bindParam(":descricao", $descricao);
@@ -19,7 +21,7 @@ class ComidaDAO
       return true;
     }
     catch(PDOException $e){
-      return 0;
+      return false;
     }
   }
 

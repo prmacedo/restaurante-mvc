@@ -27,11 +27,16 @@ require ("../controller/SessaoController.php");
         <div class="header">
           <h1>Cadastre-se</h1>
           <p>Realize o cadastro para fazer seus pedidos!</p>
-          <?php
-            if (!empty($_SESSION["erroCadastrarCliente"])) {
-              echo $_SESSION["erroCadastrarCliente"];
-            }
-          ?>
+          <?php if(isset($_SESSION["erroCadastrarCliente"])) {?>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION["erroCadastrarCliente"] ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <?php 
+            unset($_SESSION["erroCadastrarCliente"]);
+          } ?>
         </div>
         
         <form action="../controller/Rotas.php" method="POST">

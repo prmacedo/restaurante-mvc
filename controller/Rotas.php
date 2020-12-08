@@ -32,140 +32,120 @@ if (empty($_POST)) {
 
 $acao = $_POST["acao"];
 
-
 if ($acao == "clienteLogin") {
-  $mesa = $_POST["mesa"];
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
+  unset($_POST["acao"]);
 
-  date_default_timezone_set("America/Bahia");
-  $data = date('Y-m-d');
-  $hora = date('H:i');
-  $status = "Aberta";
-
-  $cliente = new Cliente("", $email, $senha);
-  $idCliente = ClienteController::login($cliente);
-  $cliente -> setId($idCliente);
-
-  $conta = new Conta($mesa, $cliente, 0, $data, $hora, $status);
-  $contaAberta = ContaController::cadastrar($conta);
-
-  if($contaAberta > 0) {
+  $cliente = ClienteController::login($_POST);
+  if ($cliente) {
+    SessaoController::autenticarSessaoCliente();
+    
+    $contaAberta = ContaController::cadastrar($_POST, $cliente);
     header("Location: ../view/cliente/index.php");
   } else {
     header("Location: ../view/");
   }
 }
 else if ($acao == "clienteCadastrar") {
-  $nome = $_POST["nome"];
-  $email = $_POST["email"];
-  $senha = $_POST["cpf"];
+  unset($_POST["acao"]);
 
-  $cliente = new Cliente($nome, $email, $senha);
-  $id = ClienteController::cadastrar($cliente);
-
-  if ($id > 0) {
+  if (ClienteController::cadastrar($_POST)) {
     header("Location: ../view/index.php");    
   } else {
     header("Location: ../view/cadastro.php");    
   }
 }
 else if ($acao == "gerenteLogin") {
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
-
-  $gerente = new Gerente("", $email, $senha);
-  GerenteController::login($gerente);
+  unset($_POST["acao"]);
+  
+  if (GerenteController::login($_POST)) {
+    SessaoController::autenticarSessaoGerente();
+    header("Location: ../view/gerente/index.php");
+  } else {
+    header("Location: ../view/login-gerente.php");
+  }
 }
 else if ($acao == "gerenteAtualizar") {
-  $id = $_POST["id"];
-  $nome = $_POST["nome"];
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
-
-  $gerente = new Gerente($nome, $email, $senha);
-  $gerente -> setId($id);
-  GerenteController::atualizar($gerente);
+  unset($_POST["acao"]);
+  
+  if (GerenteController::atualizar($_POST)) {
+    header("Location: ../view/gerente/meus-dados/");
+  } else {
+    header("Location: ../view/gerente/meus-dados/editar.php");
+  }
 }
 else if($acao == "bebidaCadastrar") {
-  $codigo = $_POST["codigo"];
-  $nome = $_POST["nome"];
-  $preco = $_POST["preco"];
-  $fornecedor = $_POST["fornecedor"];
+  unset($_POST["acao"]);
 
-  $bebida = new Bebida($nome, $preco, $fornecedor);
-  $bebida -> setId($codigo);
-  BebidaController::cadastrar($bebida);
+  if(BebidaController::cadastrar($_POST)) {
+    header("Location: ../view/gerente/bebida");
+  } else {
+    header("Location: ../view/gerente/bebida/adicionar.php");
+  }
 }
 else if($acao == "bebidaEditar") {
-  $idAntigo = $_POST["idAntigo"];
-  $id = $_POST["id"];
-  $nome = $_POST["nome"];
-  $preco = $_POST["preco"];
-  $fornecedor = $_POST["fornecedor"];
-
-  $bebida = new Bebida($nome, $preco, $fornecedor);
-  $bebida -> setId($id);
-  BebidaController::atualizar($bebida, $idAntigo);
+  unset($_POST["acao"]);
+  
+  if(BebidaController::atualizar($_POST)) {
+    header("Location: ../view/gerente/bebida/");
+  } else {
+    $id = $_POST['idAntigo'];
+    header("Location: ../view/gerente/bebida/editar.php?id=$id");
+  }
 }
 else if($acao == "bebidaExcluir") {
-  $id = $_POST["id"];
-  
-  BebidaController::excluir($id);
+  unset($_POST["acao"]);
+
+  BebidaController::excluir($_POST);
+  header("Location: ../view/gerente/bebida/");
 }
 else if($acao == "comidaCadastrar") {
-  $codigo = $_POST["codigo"];
-  $nome = $_POST["nome"];
-  $preco = $_POST["preco"];
-  $descricao = $_POST["descricao"];
-
-  $comida = new Comida($nome, $preco, $descricao);
-  $comida -> setId($codigo);
-  ComidaController::cadastrar($comida);
+  unset($_POST["acao"]);
+   
+  if(ComidaController::cadastrar($_POST)) {
+    header("Location: ../view/gerente/comida");
+  } else {
+    header("Location: ../view/gerente/comida/adicionar.php");
+  }
 }
 else if($acao == "comidaEditar") {
-  $idAntigo = $_POST["idAntigo"];
-  $id = $_POST["id"];
-  $nome = $_POST["nome"];
-  $preco = $_POST["preco"];
-  $descricao = $_POST["descricao"];
-
-  $comida = new Comida($nome, $preco, $descricao);
-  $comida -> setId($id);
-  ComidaController::atualizar($comida, $idAntigo);
+  unset($_POST["acao"]);
+  
+  if(ComidaController::atualizar($_POST)) {
+    header("Location: ../view/gerente/comida/");
+  } else {
+    $id = $_POST['idAntigo'];
+    header("Location: ../view/gerente/comida/editar.php?id=$id");
+  }
 }
 else if($acao == "comidaExcluir") {
-  $id = $_POST["id"];
+  unset($_POST["acao"]);
   
-  ComidaController::excluir($id);
+  ComidaController::excluir($_POST);
+  header("Location: ../view/gerente/comida/");
 }
 else if($acao == "cozinheiroCadastrar") {
-  $nome = $_POST["nome"];
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
-
-  $comida = new Cozinheiro($nome, $email, $senha);
-  $comida -> setId($codigo);
-  CozinheiroController::cadastrar($comida);
+  unset($_POST["acao"]);
+  
+  if(CozinheiroController::cadastrar($_POST)) {
+    header("Location: ../view/gerente/cozinheiro");
+  } else {
+    header("Location: ../view/gerente/cozinheiro/adicionar.php");
+  }
 }
 else if($acao == "cozinheiroEditar") {
-  $id = $_POST["id"];
-  $nome = $_POST["nome"];
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
-
-  $comida = new Cozinheiro($nome, $email, $senha);
+  unset($_POST["acao"]);
   
-  if(CozinheiroController::atualizar($comida, $id)) {
+  if(CozinheiroController::atualizar($_POST)) {
     header("Location: ../view/gerente/cozinheiro/");
   } else {
     header("Location: ../view/gerente/cozinheiro/editar.php?id=$cozinheiroId");
   }
 }
 else if($acao == "cozinheiroExcluir") {
-  $id = $_POST["id"];
-  
-  CozinheiroController::excluir($id);
+  unset($_POST["acao"]);
+
+  CozinheiroController::excluir($_POST);
+  header("Location: ../view/gerente/cozinheiro/");
 }
 else if($acao == "pedidoCadastrar") {
   unset($_POST["acao"]);
@@ -181,22 +161,14 @@ else if ($acao == "contaPagar") {
   header("Location: ../view/cliente/finalizacao.php");
 }
 else if ($acao == "continuarPedindo") {
-  $mesa = $_SESSION["mesa"];
   $idCliente = $_SESSION["id"];
-  $email = $_SESSION["email"];
-
-  date_default_timezone_set("America/Bahia");
-  $data = date('Y-m-d');
-  $hora = date('H:i');
-  $status = "Aberta";
+  $email = $_SESSION["email"];  
 
   $cliente = new Cliente("", $email, "");
   $cliente -> setId($idCliente);
 
-  $conta = new Conta($mesa, $cliente, 0, $data, $hora, $status);
-  $contaAberta = ContaController::cadastrar($conta);
+  $contaAberta = ContaController::cadastrar($_POST, $cliente);
 
-  var_dump($contaAberta);
   header("Location: ../view/cliente/index.php");
 }
 else if($acao == "verPedido") {
@@ -204,11 +176,12 @@ else if($acao == "verPedido") {
   header("Location: ../view/cliente/pedido.php");
 }
 else if ($acao == "cozinheiroLogin") {
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
-  
-  $cozinheiro = new Cozinheiro("", $email, $senha);
-  CozinheiroController::login($cozinheiro);
+  unset($_POST["acao"]);
+  if (CozinheiroController::login($_POST)) {
+    header("Location: ../view/cozinheiro/index.php");
+  } else {
+    header("Location: ../view/login-cozinha.php");
+  }
 }
 else if($acao == "cozinheiroVerPedido") {
   $_SESSION["contaDetalhe"] = $_POST["contaId"];
@@ -219,14 +192,9 @@ else if($acao == "entregarPedido") {
   header("Location: ../view/cozinheiro/");
 }
 else if($acao == "cozinheiroAtualizar") {
-  $id = $_POST["id"];
-  $nome = $_POST["nome"];
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
+  unset($_POST["acao"]);
 
-  $cozinheiro = new Cozinheiro($nome, $email, $senha);
-
-  if(CozinheiroController::atualizar($cozinheiro, $id)) {
+  if(CozinheiroController::atualizar($_POST)) {
     header("Location: ../view/cozinheiro/meus-dados/");
   } else {
     header("Location: ../view/cozinheiro/meus-dados/editar.php");
@@ -235,8 +203,7 @@ else if($acao == "cozinheiroAtualizar") {
 else if($acao == "clienteSair") {
   unset($_POST["acao"]);
   $permissao = ContaController::verificarStatus($_POST["contaId"]);
-  
-  
+    
   if (!$permissao) {
     header("Location: ../view/cliente/pedidos.php");
   } else {

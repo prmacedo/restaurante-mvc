@@ -7,6 +7,7 @@ require ("../../controller/SessaoController.php");
 require ("../../controller/ContaController.php");
 require ("../../controller/ClienteController.php");
 
+date_default_timezone_set("America/Bahia");
 $data = date('Y-m-d');
 
 SessaoController::validarLoginCozinheiro();

@@ -3,13 +3,20 @@ $directory = explode('\\', __DIR__);
 array_pop($directory);
 $directory = implode('/', $directory);
 
-// require ($directory."/model/Conta.php");
 require ($directory."/model/ContaDAO.php");
 
 class ContaController
 {
-  public static function cadastrar($novaConta) {
-    $_SESSION["mesa"] = $novaConta -> getMesa();
+  public static function cadastrar($post, $cliente) {
+    date_default_timezone_set("America/Bahia");
+    $mesa = $post["mesa"];
+    $data = date('Y-m-d');
+    $hora = date('H:i');
+    $status = "Aberta";
+
+    $novaConta = new Conta($mesa, $cliente, 0, $data, $hora, $status);
+    
+    $_SESSION["mesa"] = $mesa;
     $contaDAO = new ContaDAO();
 
     $conta = $contaDAO -> cadastrar($novaConta);

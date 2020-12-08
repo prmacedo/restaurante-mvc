@@ -2,14 +2,16 @@
 class BebidaDAO
 {
   public function cadastrar($novaBebida) {  
+    $id = $novaBebida->getId();
     $nome = $novaBebida->getNome();
     $preco = $novaBebida->getPreco();
     $fornecedor = $novaBebida->getFornecedor();
 
     try{
       $minhaConexao = Conexao::getConexao();
-      $sql = "INSERT INTO bebida(nome, preco, fornecedor) VALUES (:nome, :preco, :fornecedor)";      
+      $sql = "INSERT INTO bebida(id, nome, preco, fornecedor) VALUES (:id, :nome, :preco, :fornecedor)";      
       $stmt = $minhaConexao -> prepare($sql);
+      $stmt -> bindParam(":id", $id);
       $stmt -> bindParam(":nome", $nome);
       $stmt -> bindParam(":preco", $preco);
       $stmt -> bindParam(":fornecedor", $fornecedor);

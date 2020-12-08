@@ -7,34 +7,44 @@ require ($directory."/model/ClienteDAO.php");
 
 class ClienteController
 {
-  public static function login($cliente) {
+  public static function login($post) {
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
+    $cliente = new Cliente("", $email, $senha);
+
     $clienteDAO = new ClienteDAO();
 
     $dadosCliente = $clienteDAO -> login($cliente);
     if (!empty($dadosCliente)) {
+      $cliente -> setId($dadosCliente["id"]);
       $_SESSION["id"] = $dadosCliente["id"];
       $_SESSION["nome"] = $dadosCliente["nome"];
       $_SESSION["email"] = $dadosCliente["email"];
       $_SESSION["bonus"] = $dadosCliente["bonus"];
-
-      SessaoController::autenticarSessaoCliente();
       
-      return $dadosCliente["id"];
+      return $cliente;
     } else {
       $_SESSION["erroLogin"] = "Usuário não encontrado";
-      return -1;
+      return null;
     }
   }
 
-  public static function cadastrar($novoCliente) {
+  public static function cadastrar($post) {
+    $nome = $post["nome"];
+    $email = $post["email"];
+    $senha = $post["cpf"];
+
+    $cliente = new Cliente($nome, $email, $senha);
+    
     $clienteDAO = new ClienteDAO();
 
-    $id = $clienteDAO -> incluir($novoCliente);
+    $id = $clienteDAO -> incluir($cliente);
 
-    if ($id = 0) {
+    if ($id == 0) {
       $_SESSION["erroCadastrarCliente"] = "Erro ao cadastrar!";
+      return false;
     }
-    return $id;
+    return true;
   }
 
   public static function buscar($idCliente) {

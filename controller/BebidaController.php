@@ -7,19 +7,18 @@ require ($directory."/model/BebidaDAO.php");
 
 class BebidaController
 {
-  public static function cadastrar($bebida) {
+  public static function cadastrar($post) {
+    $codigo = $post["codigo"];
+    $nome = $post["nome"];
+    $preco = str_replace(',', '.', $post["preco"]);
+    $fornecedor = $post["fornecedor"];
+
+    $bebida = new Bebida($nome, $preco, $fornecedor);
+    $bebida -> setId($codigo);
+
     $bebidaDAO = new BebidaDAO();
 
-    $preco = $bebida -> getPreco();
-    $preco = str_replace(',', '.', $preco);
-    $bebida -> setPreco($preco);
-
-    $true = $bebidaDAO -> cadastrar($bebida);
-    if($true) {
-      header("Location: ../view/gerente/bebida");
-    } else {
-      header("Location: ../view/gerente/bebida/adicionar.php");
-    }
+    return $bebidaDAO -> cadastrar($bebida);
   }
 
   public static function listar() {
@@ -36,25 +35,26 @@ class BebidaController
     return $bebida;
   }
 
-  public static function atualizar($bebida, $bebidaId) {
+  public static function atualizar($post) {
+    $bebidaId = $post["idAntigo"];
+    $id = $post["id"];
+    $nome = $post["nome"];
+    $preco = $post["preco"];
+    $fornecedor = $post["fornecedor"];
+
+    $bebida = new Bebida($nome, $preco, $fornecedor);
+    $bebida -> setId($id);
+
     $bebidaDAO = new BebidaDAO();
 
-    if($bebidaDAO -> atualizar($bebida, $bebidaId)) {
-      header("Location: ../view/gerente/bebida/");
-    } else {
-      header("Location: ../view/gerente/bebida/editar.php?id=$bebidaId");
-    }
+    return $bebidaDAO -> atualizar($bebida, $bebidaId);
+    
   }
 
-  public static function excluir($bebidaId) {
+  public static function excluir($post) {
+    $bebidaId = $post["id"];
     $bebidaDAO = new BebidaDAO();
 
-    $true = $bebidaDAO -> excluir($bebidaId);
-    if ($true) {
-      // echo "ioo";
-    } else {
-      // echo "asd";
-    }
-    header("Location: ../view/gerente/bebida/");
+    return $bebidaDAO -> excluir($bebidaId);
   }
 }

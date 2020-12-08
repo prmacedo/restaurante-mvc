@@ -7,19 +7,19 @@ require ($directory."/model/ComidaDAO.php");
 
 class ComidaController
 {
-  public static function cadastrar($comida) {
+  public static function cadastrar($post) {
+    $codigo = $post["codigo"];
+    $nome = $post["nome"];
+    $preco = str_replace(',', '.', $post["preco"]);
+    $descricao = $post["descricao"];
+
+    $comida = new Comida($nome, $preco, $descricao);
+    $comida -> setId($codigo);
+
     $comidaDAO = new ComidaDAO();
 
-    $preco = $comida -> getPreco();
-    $preco = str_replace(',', '.', $preco);
-    $comida -> setPreco($preco);
-
-    $true = $comidaDAO -> cadastrar($comida);
-    if($true) {
-      header("Location: ../view/gerente/comida");
-    } else {
-      header("Location: ../view/gerente/comida/adicionar.php");
-    }
+    return $comidaDAO -> cadastrar($comida);
+    
   }
 
   public static function listar() {
@@ -36,25 +36,28 @@ class ComidaController
     return $comida;
   }
 
-  public static function atualizar($comida, $comidaId) {
+  public static function atualizar($post) {
+    $idAntigo = $post["idAntigo"];
+    $id = $post["id"];
+    $nome = $post["nome"];
+    $preco = $post["preco"];
+    $descricao = $post["descricao"];
+
+    $comida = new Comida($nome, $preco, $descricao);
+    $comida -> setId($id);
+
     $comidaDAO = new ComidaDAO();
 
-    if($comidaDAO -> atualizar($comida, $comidaId)) {
-      header("Location: ../view/gerente/comida/");
-    } else {
-      header("Location: ../view/gerente/comida/editar.php?id=$comidaId");
-    }
+    return $comidaDAO -> atualizar($comida, $idAntigo);
+    
   }
 
-  public static function excluir($comidaId) {
+  public static function excluir($post) {
+    $comidaId = $post["id"];
+
     $comidaDAO = new ComidaDAO();
 
-    $true = $comidaDAO -> excluir($comidaId);
-    if ($true) {
-      // echo "ioo";
-    } else {
-      // echo "asd";
-    }
-    header("Location: ../view/gerente/comida/");
+    return $comidaDAO -> excluir($comidaId);
+    
   }
 }

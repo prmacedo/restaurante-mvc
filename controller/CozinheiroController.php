@@ -7,29 +7,36 @@ require ($directory."/model/CozinheiroDAO.php");
 
 class CozinheiroController
 {
-  public function login($cozinheiro) {
+  public function login($post) {
+    $email = $post["email"];
+    $senha = $post["senha"];
+    
+    $cozinheiro = new Cozinheiro("", $email, $senha);
+
     $cozinheiroDAO = new CozinheiroDAO();
     $dadosCozinheiro = $cozinheiroDAO -> login($cozinheiro);
     if (!empty($dadosCozinheiro)) {
       SessaoController::autenticarSessaoCozinheiro();
       
       $_SESSION["cozinheiro"] = $dadosCozinheiro;
-      header("Location: ../view/cozinheiro/index.php");
+      return true;
     } else {
       $_SESSION["erroLogin"] = "Usuário não encontrado";
-      header("Location: ../view/login-cozinha.php");
+      return false;
     }
   }
 
-  public static function cadastrar($cozinheiro) {
+  public static function cadastrar($post) {
+    $nome = $post["nome"];
+    $email = $post["email"];
+    $senha = $post["senha"];
+
+    $cozinheiro = new Cozinheiro($nome, $email, $senha);
+
     $cozinheiroDAO = new CozinheiroDAO();
 
-    $true = $cozinheiroDAO -> cadastrar($cozinheiro);
-    if($true) {
-      header("Location: ../view/gerente/cozinheiro");
-    } else {
-      header("Location: ../view/gerente/cozinheiro/adicionar.php");
-    }
+    return $cozinheiroDAO -> cadastrar($cozinheiro);
+    
   }
 
   public static function listar() {
@@ -46,20 +53,24 @@ class CozinheiroController
     return $cozinheiro;
   }
 
-  public static function atualizar($cozinheiro, $cozinheiroId) {
+  public static function atualizar($post) {
+    $cozinheiroId = $post["id"];
+    $nome = $post["nome"];
+    $email = $post["email"];
+    $senha = $post["senha"];
+
+    $cozinheiro = new Cozinheiro($nome, $email, $senha);
+    
     $cozinheiroDAO = new CozinheiroDAO();
     return $cozinheiroDAO -> atualizar($cozinheiro, $cozinheiroId);
   }
 
-  public static function excluir($cozinheiroId) {
+  public static function excluir($post) {
+    $cozinheiroId = $post["id"];
+
     $cozinheiroDAO = new CozinheiroDAO();
 
-    $true = $cozinheiroDAO -> excluir($cozinheiroId);
-    if ($true) {
-      // echo "ioo";
-    } else {
-      // echo "asd";
-    }
-    header("Location: ../view/gerente/cozinheiro/");
+    return $cozinheiroDAO -> excluir($cozinheiroId);
+    
   }
 }
