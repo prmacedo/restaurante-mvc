@@ -1,8 +1,0 @@
-LINK para Login cliente
-index.php
-
-LINK para Login gerente
-login-gerente.php
-
-LINK para Login cozinheiro
-login-cozinha.php
